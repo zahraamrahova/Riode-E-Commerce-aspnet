@@ -1,9 +1,9 @@
 ﻿namespace Riode.WebUI.Models.Entities
 {
-    public class Brand:BaseEntity
+    public class ProductSize : BaseEntity
     {
+        public string Abbr { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
     }
 }
