@@ -46,16 +46,18 @@ namespace Riode.WebUI.Controllers
                 query = query.Where(p => p.ProductSizeColorCollection.Any(pscc => model.Colors.Contains(pscc.ColorId)));
             }
 
-            return Json(new
-            {
-                error = false,
-                data = query.ToList()
+            return PartialView("_ProductContainer", query.ToList());
 
-            }); ;
+            //return Json(new
+            //{
+            //    error = false,
+            //    data = query.ToList()
+
+            //});
         }
         public IActionResult Details(int id)
         {
-            Product product = _db.Products.Include(p => p.Images).FirstOrDefault(p => p.Id == id && p.DeletedByUserId == null);
+            Product product = _db.Products.Include(p => p.Images).Include(p => p.SpecificationValues.Where(s => s.DeletedByUserId == null)).ThenInclude(s => s.Specification).FirstOrDefault(p => p.Id == id && p.DeletedByUserId == null);
             if (product == null)
             {
                 return NotFound();

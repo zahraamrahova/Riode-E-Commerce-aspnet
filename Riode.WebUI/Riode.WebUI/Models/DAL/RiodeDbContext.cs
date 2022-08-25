@@ -16,5 +16,10 @@ namespace Riode.WebUI.Models.DAL
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductSizeColorItem> ProductSizeColorCollection { get; set; }
+
+        public DbSet<Specification> Specifications { get; set; }
+        public DbSet<SpecificationCategoryItem> SpecificationCategoryCollection { get; set; }
+        public DbSet<SpecificationValue> SpecificationValues { get; set; }
+
     }
 }

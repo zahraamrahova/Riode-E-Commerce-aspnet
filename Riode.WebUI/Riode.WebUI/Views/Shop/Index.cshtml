@@ -113,53 +113,7 @@
                     </nav>
                     <div id="productContainer" class="products-wrapper">
 
-                    @foreach (var item in Model.Products)
-                    {
-                        var imagePath = item.Images.FirstOrDefault()?.ImageName;                           
-                            <div class="product">
-                                    <figure class="product-media">
-                                        <a  asp-action="details" asp-route-id="3">
-                                            <img src="~/Uploads/images/product/@imagePath" alt="product" width="280" height="315">
-                                        </a>
-                                        <div class="product-label-group">
-                                            <label class="product-label label-sale">25% OFF</label>
-                                        </div>
-                                        <div class="product-action">
-                                            <a href="#" class=" btn-cart" title="Add to cart">
-                                                <i class="d-icon-bag"></i>
-                                                <label>Add to Cart</label>
-                                                </a>
-                                            <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                            <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
-                                                <i class="d-icon-search"></i>
-                                                <label>Quick View</label>                         
-                                            </a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <div class="product-cat">
-                                            <a href="shop-grid-3col.html">Bags &amp; Backpacks</a>
-                                        </div>
-                                        <h3 class="product-name">
-                                            <a  asp-action="details" asp-route-id="3">@item.Name</a>
-                                        </h3>
-                                        <div class="product-price">
-                                            <ins class="new-price">$53.99</ins><del class="old-price">$67.99</del>
-                                        </div>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width:60%"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a  asp-action="details" asp-route-id="3" class="rating-reviews">( 16 reviews )</a>
-                                        </div>
-                                        <p class="product-short-desc">
-                                    @item.ShortDescription
-                                            </p>
-                                    </div>
-                                </div>
-                    }
-
+                        <partial name="_ProductContainer" model="@Model.Products"/>
                             <div class="product">
                                 <figure class="product-media">
                                     <a  asp-action="details" asp-route-id="3">
@@ -174,7 +128,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -210,7 +164,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -247,7 +201,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -284,7 +238,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -324,7 +278,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -364,7 +318,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -401,7 +355,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -438,7 +392,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -478,7 +432,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -515,7 +469,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -555,7 +509,7 @@
                                             <label>Add to Cart</label>
                                             </a>
                                         <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <a   asp-action= "details" asp-route-id= "3" class="btn-quickview " title="Quick View">
+                                        <a   asp-action= "details" asp-route-id= "12" class="btn-quickview " title="Quick View">
                                             <i class="d-icon-search"></i>
                                             <label>Quick View</label>                         
                                         </a>
@@ -651,83 +605,32 @@
                                             console.log(filterObject);
 
                                             //const filterObjectJSON= JSON.stringify(filterObject);
-
+                                            //data: filterObjectJSON,                                         
+                                            //contentType: 'application/json',
+                                            //dataType: 'json',
 
                                             $.ajax({
                                                 url: '@Url.Action("Filter")',
                                                 type: 'POST',
                                                 data: filterObject,                                         
-                                                contentType: 'application/x-www-form-urlencoded',
-
-                                                //data: filterObjectJSON,                                         
-                                                //contentType: 'application/json',
-                                                dataType: 'json',
+                                                contentType: 'application/x-www-form-urlencoded',                                          
+                                                dataType: 'html',
                                                 beforeSend: function(){
                                                     console.log('sorgudan evvel');
                                                 },
-                                                success: function(response){
-
-                                                    if (response.error==false){
-                                                        $('#productContainer').html('');
-                                                        $.each(response.data, function(index, item){
-
-                                                            const el= $(`<div class="product">
-                                    <figure class="product-media">
-                                        <a  href="/shop/details/${item.Id}">
-                                            <img src="/Uploads/images/product/${item.images[0].imageName}" alt="product" width="280" height="315">
-                                        </a>
-                                        <div class="product-label-group">
-                                            <label class="product-label label-sale">25% OFF</label>
-                                        </div>
-                                        <div class="product-action">
-                                            <a href="#" class=" btn-cart" title="Add to cart">
-                                                <i class="d-icon-bag"></i>
-                                                <label>Add to Cart</label>
-                                                </a>
-                                            <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                            <a   asp-action= "details" asp-route-id= "13" class="btn-quickview " title="Quick View">
-                                                <i class="d-icon-search"></i>
-                                                <label>Quick View</label>                         
-                                            </a>
-                                        </div>
-                                    </figure>
-                                    <div class="product-details">
-                                        <div class="product-cat">
-                                            <a href="shop-grid-3col.html">Bags &amp; Backpacks</a>
-                                        </div>
-                                        <h3 class="product-name">
-                                            <a  asp-action="details" asp-route-id="3">${item.name}</a>
-                                        </h3>
-                                        <div class="product-price">
-                                            <ins class="new-price">$53.99</ins><del class="old-price">$67.99</del>
-                                        </div>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width:60%"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a  asp-action="details" asp-route-id="3" class="rating-reviews">( 16 reviews )</a>
-                                        </div>
-                                        <p class="product-short-desc">
-                                                         ${item.shortDescription}
-                                            </p>
-                                    </div>
-                                </div>`);
-                                $('#productContainer').append(el);
-                                                        });
-                                                       const el= $('a [href="#product-lists"].active');
-                                                       if(el!=undefined){
-                                                           $(el)[0].click();
-                                                       }
-                                                    }
+                                                success: function(response){                                               
                                                     console.log(response);
+                                                    $('#productContainer').html(response);
+                                                    const el = $('a[href="#product-list"].active');
+                                                    if(el!=undefine)
+                                                        $(el)[0].click('');
+                                                   
                                                 },
                                                 error: function (response){
                                                     console.log(response);
                                                 }
 
                                             })
-
                                             .always(function(){
                                                 console.log('sorgudan sonra');
                                             });

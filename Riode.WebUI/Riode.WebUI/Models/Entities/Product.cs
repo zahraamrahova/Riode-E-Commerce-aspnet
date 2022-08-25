@@ -11,5 +11,6 @@
 
         public virtual ICollection<ProductImage> Images { get; set; }
         public virtual ICollection<ProductSizeColorItem> ProductSizeColorCollection { get; set; }
+        public virtual ICollection<SpecificationValue> SpecificationValues { get; set; }
     }
 }

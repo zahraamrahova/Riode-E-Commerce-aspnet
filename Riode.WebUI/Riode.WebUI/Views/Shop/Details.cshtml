@@ -11,20 +11,20 @@
                                 <div class="product-single-carousel owl-carousel owl-theme owl-nav-inner row cols-1">
                         @foreach (var item in Model.Images)
                         {
-                             <figure class="product-image">
-                              <img src="~/Uploads/images/product/@item.ImageName"
+                                 <figure class="product-image">
+                                  <img src="~/Uploads/images/product/@item.ImageName"
 							data-zoom-image="/Uploads/images/product/@item.ImageName"
 							alt="Women's Brown Leather Backpacks" width="800" height="900">
-                                                    </figure>
+                                                        </figure>
                         }
                                 </div>
                                 <div class="product-thumbs-wrap">
                                     <div class="product-thumbs">
                             @foreach (var item in Model.Images)
                             {
-                                      <div class="product-thumb  @(item.IsMain?"active":"")">
-                                      <img src="~/Uploads/images/product/@item.ImageName" alt="product thumbnail" width="109" height="122">
-                                      </div>
+                                          <div class="product-thumb  @(item.IsMain?"active":"")">
+                                          <img src="~/Uploads/images/product/@item.ImageName" alt="product thumbnail" width="109" height="122">
+                                          </div>
                             }                           
                                     </div>
                                     <button class="thumb-up disabled"><i class="fas fa-chevron-left"></i></button>
@@ -86,7 +86,7 @@
                                     <a href="#product-tab-reviews" class="link-to-tab rating-reviews">( 6 reviews )</a>
                                 </div>
                                 <p class="product-short-desc">
-                                   @Model.ShortDescription
+                        @Model.ShortDescription
                                 </p>
 
                                 <hr class="product-divider">
@@ -159,25 +159,13 @@
                                         </h5>
                                         <table class="table">
                                             <tbody>
-                                                <tr>
-                                                    <th class="font-weight-semi-bold text-dark pl-0">Material</th>
-                                                    <td class="pl-4">Praesent id enim sit amet.Tdio</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="font-weight-semi-bold text-dark pl-0">Claimed Size</th>
-                                                    <td class="pl-4">Praesent id enim sit</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="font-weight-semi-bold text-dark pl-0">Recommended Use
-                                                    </th>
-                                                    <td class="pl-4">Praesent id enim sit amet.Tdio vulputate eleifend
-                                                        in in tortor. ellus massa. siti</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="font-weight-semi-bold text-dark border-no pl-0">
-                                                        Manufacturer</th>
-                                                    <td class="border-no pl-4">Praesent id enim</td>
-                                                </tr>
+                                    @foreach (var item in Model.SpecificationValues)
+                                    {
+                                                    <tr>
+                                                        <th class="font-weight-semi-bold text-dark pl-0">@item.Specification.Name</th>
+                                                        <td class="pl-4">@item.Value</td>
+                                                  </tr>
+                                    }
                                             </tbody>
                                         </table>
                                     </div>
@@ -538,10 +526,10 @@
                 </div>
             </div>
 @section Scripts{
-    <script>
-        $(document).ready(function(){
-            $('.product-thumb.active')[0].click();
+        <script>
+            $(document).ready(function(){
+                $('.product-thumb.active')[0].click();
 
-        });
-    </script>
+            });
+        </script>
 }

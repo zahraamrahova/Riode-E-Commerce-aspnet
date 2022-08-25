@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Riode.WebUI.Models.DAL;
 
@@ -11,9 +12,10 @@ using Riode.WebUI.Models.DAL;
 namespace Riode.WebUI.Migrations
 {
     [DbContext(typeof(RiodeDbContext))]
-    partial class RiodeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220825123152_Mig_2")]
+    partial class Mig_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -328,6 +330,9 @@ namespace Riode.WebUI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CatgoryId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CreatedByUserId")
