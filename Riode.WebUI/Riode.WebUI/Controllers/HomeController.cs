@@ -46,11 +46,21 @@ namespace Riode.WebUI.Controllers
                 ViewBag.Time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss ffffff");
                 _db.ContactPosts.Add(model);
                 _db.SaveChanges();
-                ModelState.Clear();
-                ViewBag.Message = "Your message have been send to support succesufully";
-                return View();
+                 // ModelState.Clear();
+                //ViewBag.Message = "Your message have been send to support succesufully";
+                //return View();
+                return Json(new
+                {
+                    error=false,
+                    message= "Your messaged accept, we will return as soon as possible!"
+                }) ;
             }
-            return View(model);
+            //return View(model);
+            return Json(new
+            {
+                error = true,
+                message = "Please check again!!"
+            });
         }
 
 

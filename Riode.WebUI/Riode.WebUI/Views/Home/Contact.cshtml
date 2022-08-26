@@ -40,30 +40,29 @@
                             </div>
                             <div class="col-lg-9 col-md-8 col-sm-6 d-flex align-items-center mb-4">
                                 <div class="w-100">
-                                    <form class="pl-lg-2"  asp-action="Contact" asp-controller="Home" method="post">
+                                    <form class="pl-lg-2"  asp-action="Contact" asp-controller="Home" method="post" id="contact">
                                         <h4 class="ls-m font-weight-bold">Let’s Connect</h4>
                             @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
                             {
-                                        <div class="alert alert-success text-white">
+                                            <div class="alert alert-success text-white">
                                     @ViewBag.Message
-                                        </div>
+                                            </div>
                             }
                             <b>@ViewBag.Time</b> <br />
                             <p>Your email address will not be published. Required fields are
                                             marked *</p>
                                         <div class="row mb-2">                                            
                                             <div class="col-md-6 mb-4">
-                                                <input class="form-control" asp-for="Name" placeholder="Name *">
-                                                <span asp-validation-for="Name" class="text-danger"></span>
+                                                <input class="form-control" asp-for="Name" 
+                                                placeholder="Name *" >
+
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <input class="form-control" asp-for="Email" placeholder="Email *" >
-                                                <span asp-validation-for="Email" class="text-danger"></span>
                                             </div>
                                             <div class="col-12 mb-4">
                                                 <textarea class="form-control" asp-for="Comment"
                                                     placeholder="Comment*"></textarea>
-                                                    <span asp-validation-for="Comment" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <button name="submit" formmethod="post"  type= "submit" class="btn btn-dark btn-rounded">Post Comment<i
@@ -150,8 +149,110 @@
                 <!-- End Map Section -->
             </div>
 
-@section Scripts {
+@section addcss{
+        <link href="~/lib/toastr.js/toastr.css" rel="stylesheet"/>
+        <style>
+            .is-invalid{
+                border: 1px solid #dc3545;
+                color: #dc3545;
+            }
+            .is-invalid + span.error {
+                color:#dc3545;
+                font-size:1rem;
+                margin-left: 1px;
+            }
+            is-valid{
+                border: 1px solid teal;
+            }
+        </style>
+}
+    @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+        <script src="~/lib/toastr.js/toastr.min.js"></script>
+
+     <script>
+         toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-bottom-right",
+      "preventDuplicates": true,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+            $(document).ready(function(){
+
+                $('[data-val="true"]').each(function(index, item){
+                    $(item).removeAttr('data-val');
+                    let value= $(item).data('val-required');
+                    if(value!=undefined && value.length>0){
+                         $(item).removeAttr('data-val-required');
+                         $(item).attr('data-rule-required', true);
+                         $(item).attr('data-msg-required', value);
+
+                    }
+                    value= $(item).data('val-email');
+                    if(value!=undefined && value.length>0){
+                         $(item).removeAttr('data-val-email');
+                         $(item).attr('data-rule-email', true);
+                         $(item).attr('data-msg-email', value);
+
+                    }
+                });
+
+
+
+
+                $('#contact')
+                .submit(function(e){
+                    e.preventDefault();
+                    const isValid= $(e.currentTarget).valid();
+                    if(isValid!=true)
+                        return;
+
+                    const formData= new FormData(e.currentTarget);
+                    $.ajax({
+                        url: '@Url.Action("Contact")',
+                        type: 'POST',
+                        data: formData,
+                        contentType:false,
+                        processData:false,
+                        success:function(response){
+                            if(response.error==false){
+                                e.currentTarget.reset();
+                                toastr.success(response.message, "Success");
+                                $(e.currentTarget).find('.is-valid').removeClass('is-valid');
+                            }
+                            else {
+                            toastr.error(response.message, "Error");
+                            }
+                        },
+                        error: function(response){
+                              toastr.error("Unknown error happened", "Error");
+                        }
+
+                    });
+                })
+                .validate({
+                    errorElement: 'span',
+                    highlight: function(element, errorClass, validClass) {
+                        $(element).addClass('is-invalid').removeClass('is-valid');
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                          $(element).addClass('is-valid').removeClass('is-invalid');
+                    }
+                });
+
+            });
+        </script>
     }

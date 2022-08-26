@@ -4,12 +4,13 @@ namespace Riode.WebUI.Models.Entities
 {
     public class ContactPost:BaseEntity
     {
-        [Required]
+        
+        [Required(ErrorMessage ="Can not be null")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Can not be null")]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Can not be null")]
         public string Comment { get; set; }
 
         public string? Answer { get; set; }
