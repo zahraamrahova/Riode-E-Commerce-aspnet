@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Riode.WebUI.Models.DAL;
 
@@ -11,9 +12,10 @@ using Riode.WebUI.Models.DAL;
 namespace Riode.WebUI.Migrations
 {
     [DbContext(typeof(RiodeDbContext))]
-    partial class RiodeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220826092335_Mig_5")]
+    partial class Mig_5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,14 +103,15 @@ namespace Riode.WebUI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Answer")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("AnsweredByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("AnsweredDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Asnwer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
                         .IsRequired()
@@ -136,7 +139,7 @@ namespace Riode.WebUI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactPosts");
+                    b.ToTable("contactPosts");
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Product", b =>

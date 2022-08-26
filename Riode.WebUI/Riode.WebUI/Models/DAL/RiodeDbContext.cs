@@ -20,6 +20,7 @@ namespace Riode.WebUI.Models.DAL
         public DbSet<Specification> Specifications { get; set; }
         public DbSet<SpecificationCategoryItem> SpecificationCategoryCollection { get; set; }
         public DbSet<SpecificationValue> SpecificationValues { get; set; }
+        public DbSet<ContactPost> ContactPosts { get; set; }
 
     }
 }
