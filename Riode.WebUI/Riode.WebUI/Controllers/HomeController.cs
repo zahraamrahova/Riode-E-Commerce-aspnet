@@ -28,7 +28,8 @@ namespace Riode.WebUI.Controllers
         }
         public IActionResult Fags()
         {
-            return View();
+            var faqs = _db.Faqs.Where(f => f.DeletedByUserId == null).ToList();
+            return View(faqs);
         }
         [HttpGet]
         public IActionResult Contact()
@@ -36,6 +37,26 @@ namespace Riode.WebUI.Controllers
 
             ViewBag.Time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss ffffff");
             return View();
+        }
+        [HttpPost]
+       // [ValidateAntiForgeryToken]
+        public IActionResult Subscribe([Bind("Email")] Subscribe model)
+        {
+            if (!ModelState.IsValid)
+            {
+                _db.Subscribes.Add(model);
+                _db.SaveChanges();
+                return Json(new
+                {
+                    error = false,
+                    message = "Your query accepted succesufylly.Please confirmed your email"
+                });
+            }
+            return Json(new
+            {
+                error=true,
+                message= "There are problem. Please try after 5 minutes again"
+            });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]  

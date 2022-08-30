@@ -21,6 +21,8 @@ namespace Riode.WebUI.Models.DAL
         public DbSet<SpecificationCategoryItem> SpecificationCategoryCollection { get; set; }
         public DbSet<SpecificationValue> SpecificationValues { get; set; }
         public DbSet<ContactPost> ContactPosts { get; set; }
+        public DbSet<Faq> Faqs { get; set; }
+        public DbSet<Subscribe> Subscribes { get; set; }
 
     }
 }
