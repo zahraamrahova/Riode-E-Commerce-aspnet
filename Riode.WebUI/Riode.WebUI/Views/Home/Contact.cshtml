@@ -150,7 +150,6 @@
             </div>
 
 @section addcss{
-        <link href="~/lib/toastr.js/toastr.css" rel="stylesheet"/>
         <style>
             .is-invalid{
                 border: 1px solid #dc3545;
@@ -166,30 +165,9 @@
             }
         </style>
 }
-    @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-        <script src="~/lib/toastr.js/toastr.min.js"></script>
-
-     <script>
-         toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": false,
-      "progressBar": true,
-      "positionClass": "toast-bottom-right",
-      "preventDuplicates": true,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+     <script>   
             $(document).ready(function(){
 
                 $('[data-val="true"]').each(function(index, item){
@@ -209,10 +187,6 @@
 
                     }
                 });
-
-
-
-
                 $('#contact')
                 .submit(function(e){
                     e.preventDefault();
@@ -221,6 +195,7 @@
                         return;
 
                     const formData= new FormData(e.currentTarget);
+                          console.log(formData);
                     $.ajax({
                         url: '@Url.Action("Contact")',
                         type: 'POST',
@@ -228,6 +203,7 @@
                         contentType:false,
                         processData:false,
                         success:function(response){
+                                   console.log(response);
                             if(response.error==false){
                                 e.currentTarget.reset();
                                 toastr.success(response.message, "Success");
@@ -240,7 +216,6 @@
                         error: function(response){
                               toastr.error("Unknown error happened", "Error");
                         }
-
                     });
                 })
                 .validate({

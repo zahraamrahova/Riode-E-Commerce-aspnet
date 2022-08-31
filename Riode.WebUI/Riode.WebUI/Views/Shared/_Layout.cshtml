@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/magnific-popup/magnific-popup.min.css">
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/nouislider/nouislider.min.css">
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/owl-carousel/owl.carousel.min.css">
-    <link href="~/lib/toastr.js/toastr.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="~/lib/toastr.js/toastr.css" />
     <!-- Main CSS File -->
     <link rel="stylesheet" type="text/css" href="~/css/style.min.css">
 
@@ -317,12 +317,18 @@
                                     <h4 class="widget-title">Subscribe to our Newsletter</h4>
                                     <p class="mb-0">Get all the latest information, Sales and Offers.</p>
                                 </div>
-                                <form method="post" aps-controller= "Home" asp-action="Subscribe" class="input-wrapper input-wrapper-inline" id="frmSubscribe">
-                                    <input type="email" class="form-control" name="email" id="email"
-                                           placeholder="Email address here..."  data-rule-required= "true" data-msg-required="Cannot be empty" 
-                                           data-rule-email= "true" data-msg-email="Invalid Email format"
+                                <form method="post" asp-controller="Home" asp-action= "Subscribe" class="input-wrapper input-wrapper-inline" id="frmSubscribe">
+                                    <input type="email" 
+                                        class="form-control" 
+                                        name="email" 
+                                        id="email"
+                                        placeholder="Email address here..."  
+                                        data-rule-required= "true" 
+                                        data-msg-required="Cannot be emptyyyy" 
+                                        data-rule-email= "true" 
+                                        data-msg-email="Invalid Email formatttt"
                                            />
-                                    <button class="btn btn-primary btn-rounded btn-md ml-2" type="submit">
+                                    <button formmethod="post" class="btn btn-primary btn-rounded btn-md ml-2" type="submit">
                                         subscribe<i class="d-icon-arrow-right"></i>
                                     </button>
                                     @Html.AntiForgeryToken()
@@ -688,8 +694,10 @@
             </div>
         </div>
     </div>
+   
      <!-- Plugins JS File -->
     <script src="~/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/assets/vendor/elevatezoom/jquery.elevatezoom.min.js"></script>
     <script src="~/assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
@@ -698,63 +706,12 @@
     <script src="~/assets/vendor/isotope/isotope.pkgd.min.js"></script>
     <script src="~/assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
     <script src="~/assets/vendor/jquery.countdown/jquery.countdown.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
+
+  
     <!-- Main JS File -->
     <script src="~/js/main.min.js"></script>
-     @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-     }
-    <script>
-        $(document).ready(function(){
-            toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": false,
-      "progressBar": true,
-      "positionClass": "toast-bottom-right",
-      "preventDuplicates": true,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    }
-            $('#frmSubcribe').submit(function(e){
-                e.preventDefault();
-                if($(e.currentTarget).validate()!=true)
-                return;
-                const formData= new FormData(e.currentTarget);
-                $.ajax({
-                    url: '@Url.Action("Subscribe")',
-                    type: 'POST',
-                    data: formData,
-                    contentType:false,
-                    processData:false,
-                     success:function(response){
-                            if(response.error==false){
-                                e.currentTarget.reset();
-                                toastr.success(response.message, "Success");
-                            }
-                            else {
-                            toastr.error(response.message, "Error");
-                            }
-                        },
-                        error: function(response){
-                              toastr.error("Unknown error happened", "Error");
-                        }
-
-
-                });
-            }).validate({
-                errorElement: 'span'
-            });
-        });
-    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

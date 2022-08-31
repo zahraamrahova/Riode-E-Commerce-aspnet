@@ -39,10 +39,27 @@ namespace Riode.WebUI.Controllers
             return View();
         }
         [HttpPost]
-       // [ValidateAntiForgeryToken]
+       [ValidateAntiForgeryToken]
         public IActionResult Subscribe([Bind("Email")] Subscribe model)
         {
-            if (!ModelState.IsValid)
+            var current = _db.Subscribes.FirstOrDefault(s => s.Email.Equals(model.Email));
+            if(current!=null && current.EmailConfirmed==true)
+            {
+                return Json(new
+                {
+                    error = true,
+                    message = "This email alrease subscribed!"
+                });
+            }
+            else if (current != null && (current.EmailConfirmed ??false == false))
+            {
+                return Json(new
+                {
+                    error = true,
+                    message = "The confirmation of this email wasnt completed"
+                });
+            }
+            if (ModelState.IsValid)
             {
                 _db.Subscribes.Add(model);
                 _db.SaveChanges();
@@ -67,16 +84,12 @@ namespace Riode.WebUI.Controllers
                 ViewBag.Time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss ffffff");
                 _db.ContactPosts.Add(model);
                 _db.SaveChanges();
-                 // ModelState.Clear();
-                //ViewBag.Message = "Your message have been send to support succesufully";
-                //return View();
                 return Json(new
                 {
                     error=false,
                     message= "Your messaged accept, we will return as soon as possible!"
                 }) ;
             }
-            //return View(model);
             return Json(new
             {
                 error = true,
