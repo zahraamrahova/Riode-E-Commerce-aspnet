@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Riode.WebUI.AppCode.Extensions;
 using Riode.WebUI.Models;
 using Riode.WebUI.Models.DAL;
 using Riode.WebUI.Models.Entities;
 using System.Diagnostics;
+using System.Net;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace Riode.WebUI.Controllers
 {
@@ -10,11 +14,13 @@ namespace Riode.WebUI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly RiodeDbContext _db;
+        private readonly IConfiguration configuration;
 
-        public HomeController(ILogger<HomeController> logger, RiodeDbContext db )
+        public HomeController(ILogger<HomeController> logger, RiodeDbContext db, IConfiguration configuration )
         {
             _logger = logger;
             _db = db;
+            this.configuration = configuration;
         }
 
         public IActionResult Index()
@@ -63,6 +69,22 @@ namespace Riode.WebUI.Controllers
             {
                 _db.Subscribes.Add(model);
                 _db.SaveChanges();
+
+                string token = $"subscribetoken-{model.Id}-{DateTime.Now:yyyyMMddHHmmss}";
+                token = token.Encrypt();
+                string path = $"{Request.Scheme}://{Request.Host}/subscribe-confirm?token={token}";
+                var mailSended=configuration.SendEmail(model.Email, "Riode News Letter Subscribe", $"Please complete subscribetion with this <a href ={path}>link</a>");
+
+                if (mailSended == false)
+                {
+                    _db.Database.RollbackTransaction();
+                    return Json(new
+                    {
+                      
+                        error = false,
+                        message = "There a problem during send email. Please try again after 5 minute"
+                    });
+                }
                 return Json(new
                 {
                     error = false,
@@ -74,6 +96,44 @@ namespace Riode.WebUI.Controllers
                 error=true,
                 message= "There are problem. Please try after 5 minutes again"
             });
+        }
+        [HttpGet]
+        [Route("subscribe-confirm")]
+        public IActionResult SubscribeConfirm(string token)
+
+        {
+            token = token.Decrypt();
+            Match match = Regex.Match(token, @"subscribetoken-(?<id>\d+)-(?<executeTimeStamp>\d{14})");
+            if (match.Success)
+            {
+                int id = Convert.ToInt32(match.Groups["id"].Value);
+                string executeTimeStamp= match.Groups["executeTimeStamp"].Value;
+
+                var subscribe = _db.Subscribes.FirstOrDefault(s => s.Id == id && s.DeletedByUserId==null);
+                if(subscribe == null)
+                {
+                    ViewBag.Message = Tuple.Create(true, "Token Error");
+                    goto end;
+                }
+                if ((subscribe.EmailConfirmed ?? false) == true)
+                {
+                    ViewBag.Message = Tuple.Create(true, "This token already confirmed");
+                    goto end;
+                }
+
+                subscribe.EmailConfirmed = true;
+                subscribe.EmailConfirmedDate = DateTime.Now;
+                _db.SaveChanges();
+                ViewBag.Message = Tuple.Create(false, "Your Subscribtion alreadey confirmed");
+            }
+            else
+            {
+                ViewBag.Message = Tuple.Create(true, "Token Error");
+                goto end;
+            }
+            end:
+            return View();
+
         }
         [HttpPost]
         [ValidateAntiForgeryToken]  
@@ -96,7 +156,18 @@ namespace Riode.WebUI.Controllers
                 message = "Please check again!!"
             });
         }
+        [HttpGet]
+        public string Cevir()
+        {
 
+
+            string text = $"subscribetoken-38-{DateTime.Now:yyyyMMddHHmmss}";
+            string result1 = text.Encrypt();
+            string result2 = result1.Decrypt();
+          
+
+            return $"{result1} and {result2}";
+        }
 
         public IActionResult Privacy()
         {
