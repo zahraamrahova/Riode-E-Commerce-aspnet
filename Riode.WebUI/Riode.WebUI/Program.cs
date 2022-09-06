@@ -44,6 +44,10 @@ namespace Riode.WebUI
                         await context.Response.WriteAsync(sr.ReadToEnd());
                     }
                 });
+                    endpoints.MapControllerRoute(
+                    name: "areas",
+                    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+                 );
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
             });
