@@ -23,6 +23,7 @@ namespace Riode.WebUI.Models.DAL
         public DbSet<ContactPost> ContactPosts { get; set; }
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<Subscribe> Subscribes { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
 
     }
 }

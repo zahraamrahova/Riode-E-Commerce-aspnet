@@ -40,13 +40,13 @@
                         </div>
                         <!-- End DropDown Menu -->
                         <div class="dropdown ml-5">
-                            <a href="#language">ENG</a>
+                            <a data-lang-viewer="#language">AZE</a>
                             <ul class="dropdown-box">
                                 <li>
-                                    <a href="#USD">ENG</a>
+                                    <a href="#" data-lang= "az">AZE</a>
                                 </li>
                                 <li>
-                                    <a href="#EUR">FRH</a>
+                                    <a href="#" data-lang= "en">ENG</a>
                                 </li>
                             </ul>
                         </div>
@@ -218,13 +218,13 @@
                         <nav class="main-nav ml-0">
                             <ul class="menu">
                                 <li class="active">
-                                    <a asp-controller="home" asp-action="index">Home</a>
+                                    <a asp-controller="home" asp-action="index">@LayoutResource.Home</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="home" asp-action="AboutUs">About</a>
+                                    <a asp-controller="home" asp-action="AboutUs">@LayoutResource.About</a>
                                 </li>
                                 <li class="submenu">
-                                    <a asp-controller="shop" asp-action="index">Shop</a>
+                                    <a asp-controller="shop" asp-action="index">@LayoutResource.Shop</a>
                                     <div class="megamenu">
                                         <div class="row">
                                             <div class="col-6 col-sm-4 col-md-3 col-lg-4">
@@ -272,19 +272,19 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a asp-controller="Home" asp-action="Fags">FAQs</a>
+                                    <a asp-controller="Home" asp-action="Fags">@LayoutResource.Faqs</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="Account" asp-action="Profile">My Account</a>
+                                    <a asp-controller="Account" asp-action="Profile">@LayoutResource.My_Account</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="Blog" asp-action="index">Blog</a>
+                                    <a asp-controller="Blog" asp-action="index">@LayoutResource.Blog</a>
                                 </li>
                                    <li>
-                                    <a asp-controller="Home" asp-action="contact">Contact Us</a>
+                                    <a asp-controller="Home" asp-action="contact">@LayoutResource.Contact_Us</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="Home" asp-action="AboutUs">About Us</a>
+                                    <a asp-controller="Home" asp-action="AboutUs">@LayoutResource.About</a>
                                 </li>
                             </ul>
                         </nav>
@@ -712,6 +712,26 @@
   
     <!-- Main JS File -->
     <script src="~/js/main.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            const lang =`@Context.GetCurrentCulture()`;
+            const selectedLangText= $(`[data-lang="${lang}"`).text();
+            $(`[data-lang-viewer="#language"]`).text(selectedLangText);
+              $('[data-lang]').click(function (e) {
+            e.preventDefault();
+            let path = `${window.location.pathname}${window.location.search}`;
+            let selectedLang = $(e.currentTarget).data('lang');
+            var result = /\/(en|az|ru)?\/?(.*)?/.exec(path);
+            if (result != null && result[2] != undefined) {
+                 path = `/${selectedLang}/${result[2]}`;
+            }
+            else if (result != null) {
+                path = `/${selectedLang}`;
+            }           
+            window.location.href = path; 
+        });
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

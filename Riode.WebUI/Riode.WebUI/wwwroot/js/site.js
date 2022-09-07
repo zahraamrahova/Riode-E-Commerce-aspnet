@@ -5,8 +5,6 @@
 
 
     $(document).ready(function(){
-
-
         toastr.options = {
             "closeButton": true,
             "debug": false,
@@ -55,4 +53,5 @@
         }).validate({
             errorElement: 'span'
         });
+     
     });

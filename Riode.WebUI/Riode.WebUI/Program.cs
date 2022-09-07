@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Midlewares;
+using Riode.WebUI.AppCode.Providers;
 using Riode.WebUI.Models.DAL;
 
 namespace Riode.WebUI
@@ -31,8 +33,17 @@ namespace Riode.WebUI
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseRequestLocalization(cfg =>
+            {
+                cfg.AddSupportedUICultures("az", "en");
+                cfg.AddSupportedCultures("az", "en");
+                cfg.RequestCultureProviders.Clear();
+                cfg.RequestCultureProviders.Add(new CultureProvider());
+            });
 
-            app.UseAuthorization();
+            app.UseAudit();
+
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
 
@@ -45,9 +56,21 @@ namespace Riode.WebUI
                     }
                 });
                     endpoints.MapControllerRoute(
-                    name: "areas",
-                    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+                    name: "areas-with-lang",
+                    pattern: "{lang}/{area:exists}/{controller=Dashboard}/{action=Index}/{id?}",
+                    constraints: new
+                    {
+                        lang= "en|az|ru"
+                    }
                  );
+                endpoints.MapControllerRoute(
+                   name: "areas",
+                   pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+                );
+                endpoints.MapControllerRoute("default-with-lang", "{lang}/{controller=Home}/{action=Index}/{id?}", constraints: new
+                {
+                    lang = "en|az|ru"
+                });
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
             });

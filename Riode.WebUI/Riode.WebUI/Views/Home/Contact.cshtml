@@ -52,17 +52,17 @@
                             <p>Your email address will not be published. Required fields are
                                             marked *</p>
                                         <div class="row mb-2">                                            
-                                            <div class="col-md-6 mb-4">
+                                            <div class="col-md-6 mb-4">                                           
                                                 <input class="form-control" asp-for="Name" 
-                                                placeholder="Name *" >
+                                                placeholder="@ContactResource.Name *" >
 
                                             </div>
                                             <div class="col-md-6 mb-4">
-                                                <input class="form-control" asp-for="Email" placeholder="Email *" >
+                                                <input class="form-control" asp-for="Email" placeholder="@ContactResource.Email *" >
                                             </div>
                                             <div class="col-12 mb-4">
                                                 <textarea class="form-control" asp-for="Comment"
-                                                    placeholder="Comment*"></textarea>
+                                                    placeholder="@ContactResource.Comment*"></textarea>
                                             </div>
                                         </div>
                                         <button name="submit" formmethod="post"  type= "submit" class="btn btn-dark btn-rounded">Post Comment<i

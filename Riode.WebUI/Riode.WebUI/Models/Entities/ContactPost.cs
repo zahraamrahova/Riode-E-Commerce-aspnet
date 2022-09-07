@@ -1,16 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace Riode.WebUI.Models.Entities
 {
     public class ContactPost:BaseEntity
     {
-        
-        [Required(ErrorMessage ="Can not be null")]
+        [Display(ResourceType=typeof(ContactResource),Name ="Name")]
+        [Required(ErrorMessageResourceType =typeof(ContactResource),ErrorMessageResourceName = "Cannotbeempty")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Can not be null")]
-        [EmailAddress]
+        [Display(ResourceType = typeof(ContactResource), Name = "Email")]
+        [Required(ErrorMessageResourceType = typeof(ContactResource), ErrorMessageResourceName = "Cannotbeempty")]
+        [EmailAddress(ErrorMessageResourceType = typeof(ContactResource), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Can not be null")]
+        [Display(ResourceType = typeof(ContactResource), Name = "Comment")]
+        [Required(ErrorMessageResourceType = typeof(ContactResource), ErrorMessageResourceName = "Cannotbeempty")]
         public string Comment { get; set; }
 
         public string? Answer { get; set; }
