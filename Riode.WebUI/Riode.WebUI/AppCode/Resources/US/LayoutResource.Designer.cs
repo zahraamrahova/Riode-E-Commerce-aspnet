@@ -70,11 +70,65 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Küçə 123, Şəhər, Ölkə.
+        /// </summary>
+        public static string AddressDetails {
+            get {
+                return ResourceManager.GetString("AddressDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ünvan.
+        /// </summary>
+        public static string Adress {
+            get {
+                return ResourceManager.GetString("Adress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bütün Kateqoriyalar.
+        /// </summary>
+        public static string AllCategories {
+            get {
+                return ResourceManager.GetString("AllCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bloq.
         /// </summary>
         public static string Blog {
             get {
                 return ResourceManager.GetString("Blog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Riodedan alın.
+        /// </summary>
+        public static string BuyRiode {
+            get {
+                return ResourceManager.GetString("BuyRiode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to İndi zəng et.
+        /// </summary>
+        public static string CallUsNow {
+            get {
+                return ResourceManager.GetString("CallUsNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Əlaqə.
+        /// </summary>
+        public static string Contact {
+            get {
+                return ResourceManager.GetString("Contact", resourceCulture);
             }
         }
         
@@ -88,11 +142,47 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Müştəri xidmətləri.
+        /// </summary>
+        public static string CustomService {
+            get {
+                return ResourceManager.GetString("CustomService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-poçt.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ən çox verilən suallar.
         /// </summary>
         public static string Faqs {
             get {
                 return ResourceManager.GetString("Faqs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ən son məlumatları, Satışları və Təklifləri əldə edin..
+        /// </summary>
+        public static string GetAllInformation {
+            get {
+                return ResourceManager.GetString("GetAllInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kömək.
+        /// </summary>
+        public static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
             }
         }
         
@@ -106,6 +196,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Instagram.
+        /// </summary>
+        public static string Instagram {
+            get {
+                return ResourceManager.GetString("Instagram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mənim Hesabım.
         /// </summary>
         public static string My_Account {
@@ -115,11 +214,164 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mənim siyahım.
+        /// </summary>
+        public static string MywishList {
+            get {
+                return ResourceManager.GetString("MywishList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kömək.
+        /// </summary>
+        public static string NeedHelp {
+            get {
+                return ResourceManager.GetString("NeedHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sifariş tarixçəsi.
+        /// </summary>
+        public static string OrderHistory {
+            get {
+                return ResourceManager.GetString("OrderHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Telefon.
+        /// </summary>
+        public static string Phone {
+            get {
+                return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pulsuz (123) 456-7890.
+        /// </summary>
+        public static string PhoneDetails {
+            get {
+                return ResourceManager.GetString("PhoneDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Qaytarılanlar.
+        /// </summary>
+        public static string Returns {
+            get {
+                return ResourceManager.GetString("Returns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Riode e-ticarət © 2021. Bütün hüquqlar qorunur.
+        /// </summary>
+        public static string RiodeeCommerce {
+            get {
+                return ResourceManager.GetString("RiodeeCommerce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alış-Veriş.
         /// </summary>
         public static string Shop {
             get {
                 return ResourceManager.GetString("Shop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alış-veriş kartı.
+        /// </summary>
+        public static string ShoppingCart {
+            get {
+                return ResourceManager.GetString("ShoppingCart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Daxil olun.
+        /// </summary>
+        public static string SignIn {
+            get {
+                return ResourceManager.GetString("SignIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Qeydiyyat.
+        /// </summary>
+        public static string SignRegister {
+            get {
+                return ResourceManager.GetString("SignRegister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bülletenimizə abunə olun.
+        /// </summary>
+        public static string SubscribetoourNewsletter {
+            get {
+                return ResourceManager.GetString("SubscribetoourNewsletter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Şərtlər və qaydalar.
+        /// </summary>
+        public static string TermsCondition {
+            get {
+                return ResourceManager.GetString("TermsCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sifarişini izlə.
+        /// </summary>
+        public static string TrackMyOrder {
+            get {
+                return ResourceManager.GetString("TrackMyOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Səbətə baxın.
+        /// </summary>
+        public static string ViewCart {
+            get {
+                return ResourceManager.GetString("ViewCart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Riode Mağazasına xoş gəlmisiniz!.
+        /// </summary>
+        public static string WelcometoRiodeStore {
+            get {
+                return ResourceManager.GetString("WelcometoRiodeStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to İŞ GÜNÜ/SAATLARI.
+        /// </summary>
+        public static string WorkingDaysHours {
+            get {
+                return ResourceManager.GetString("WorkingDaysHours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bazar ertəsi - Bazar / 9:00 - 20:00.
+        /// </summary>
+        public static string WorkingDaysHoursDetails {
+            get {
+                return ResourceManager.GetString("WorkingDaysHoursDetails", resourceCulture);
             }
         }
     }

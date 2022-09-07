@@ -120,22 +120,106 @@
   <data name="About" xml:space="preserve">
     <value>Ətraflı</value>
   </data>
+  <data name="AddressDetails" xml:space="preserve">
+    <value>Küçə 123, Şəhər, Ölkə</value>
+  </data>
+  <data name="Adress" xml:space="preserve">
+    <value>Ünvan</value>
+  </data>
+  <data name="AllCategories" xml:space="preserve">
+    <value>Bütün Kateqoriyalar</value>
+  </data>
   <data name="Blog" xml:space="preserve">
     <value>Bloq</value>
+  </data>
+  <data name="BuyRiode" xml:space="preserve">
+    <value>Riodedan alın</value>
+  </data>
+  <data name="CallUsNow" xml:space="preserve">
+    <value>İndi zəng et</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Əlaqə</value>
   </data>
   <data name="Contact Us" xml:space="preserve">
     <value>Əlaqə</value>
   </data>
+  <data name="CustomService" xml:space="preserve">
+    <value>Müştəri xidmətləri</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-poçt</value>
+  </data>
   <data name="Faqs" xml:space="preserve">
     <value>Ən çox verilən suallar</value>
+  </data>
+  <data name="GetAllInformation" xml:space="preserve">
+    <value>Ən son məlumatları, Satışları və Təklifləri əldə edin.</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Kömək</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Ana Səhifə</value>
   </data>
+  <data name="Instagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
   <data name="My Account" xml:space="preserve">
     <value>Mənim Hesabım</value>
   </data>
+  <data name="MywishList" xml:space="preserve">
+    <value>Mənim siyahım</value>
+  </data>
+  <data name="NeedHelp" xml:space="preserve">
+    <value>Kömək</value>
+  </data>
+  <data name="OrderHistory" xml:space="preserve">
+    <value>Sifariş tarixçəsi</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="PhoneDetails" xml:space="preserve">
+    <value>Pulsuz (123) 456-7890</value>
+  </data>
+  <data name="Returns" xml:space="preserve">
+    <value>Qaytarılanlar</value>
+  </data>
+  <data name="RiodeeCommerce" xml:space="preserve">
+    <value>Riode e-ticarət © 2021. Bütün hüquqlar qorunur</value>
+  </data>
   <data name="Shop" xml:space="preserve">
     <value>Alış-Veriş</value>
+  </data>
+  <data name="ShoppingCart" xml:space="preserve">
+    <value>Alış-veriş kartı</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Daxil olun</value>
+  </data>
+  <data name="SignRegister" xml:space="preserve">
+    <value>Qeydiyyat</value>
+  </data>
+  <data name="SubscribetoourNewsletter" xml:space="preserve">
+    <value>Bülletenimizə abunə olun</value>
+  </data>
+  <data name="TermsCondition" xml:space="preserve">
+    <value>Şərtlər və qaydalar</value>
+  </data>
+  <data name="TrackMyOrder" xml:space="preserve">
+    <value>Sifarişini izlə</value>
+  </data>
+  <data name="ViewCart" xml:space="preserve">
+    <value>Səbətə baxın</value>
+  </data>
+  <data name="WelcometoRiodeStore" xml:space="preserve">
+    <value>Riode Mağazasına xoş gəlmisiniz!</value>
+  </data>
+  <data name="WorkingDaysHours" xml:space="preserve">
+    <value>İŞ GÜNÜ/SAATLARI</value>
+  </data>
+  <data name="WorkingDaysHoursDetails" xml:space="preserve">
+    <value>Bazar ertəsi - Bazar / 9:00 - 20:00</value>
   </data>
 </root>

@@ -120,22 +120,106 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AddressDetails" xml:space="preserve">
+    <value>123 Street, City, Country</value>
+  </data>
+  <data name="Adress" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="AllCategories" xml:space="preserve">
+    <value>All Categories</value>
+  </data>
   <data name="Blog" xml:space="preserve">
     <value>Blog</value>
+  </data>
+  <data name="BuyRiode" xml:space="preserve">
+    <value>Buy Riode</value>
+  </data>
+  <data name="CallUsNow" xml:space="preserve">
+    <value>Call Us Now</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contact</value>
   </data>
   <data name="Contact Us" xml:space="preserve">
     <value>Contact Us</value>
   </data>
+  <data name="CustomService" xml:space="preserve">
+    <value>Custom Service</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
   <data name="Faqs" xml:space="preserve">
     <value>Faqs</value>
+  </data>
+  <data name="GetAllInformation" xml:space="preserve">
+    <value>Get all the latest information, Sales and Offers.</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="Instagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
   <data name="My Account" xml:space="preserve">
     <value>My Account</value>
   </data>
+  <data name="MywishList" xml:space="preserve">
+    <value>My wishList</value>
+  </data>
+  <data name="NeedHelp" xml:space="preserve">
+    <value>Need Help</value>
+  </data>
+  <data name="OrderHistory" xml:space="preserve">
+    <value>Order History</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="PhoneDetails" xml:space="preserve">
+    <value>Toll Free (123) 456-7890</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Returns" xml:space="preserve">
+    <value>Returns</value>
+  </data>
+  <data name="RiodeeCommerce" xml:space="preserve">
+    <value>Riode eCommerce © 2021. All Rights Reserved</value>
+  </data>
   <data name="Shop" xml:space="preserve">
     <value>Shop</value>
+  </data>
+  <data name="ShoppingCart" xml:space="preserve">
+    <value>Shopping Cart</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="SubscribetoourNewsletter" xml:space="preserve">
+    <value>Subscribe to our Newsletter</value>
+  </data>
+  <data name="TermsCondition" xml:space="preserve">
+    <value>Terms &amp; Condition</value>
+  </data>
+  <data name="TrackMyOrder" xml:space="preserve">
+    <value> Track My Order</value>
+  </data>
+  <data name="ViewCart" xml:space="preserve">
+    <value>View Cart</value>
+  </data>
+  <data name="WelcometoRiodeStore" xml:space="preserve">
+    <value>Welcome to Riode Store!</value>
+  </data>
+  <data name="WorkingDaysHours" xml:space="preserve">
+    <value>WORKING DAYS / HOURS</value>
+  </data>
+  <data name="WorkingDaysHoursDetails" xml:space="preserve">
+    <value>Mon - Sun / 9:00 AM - 8:00 PM</value>
   </data>
 </root>

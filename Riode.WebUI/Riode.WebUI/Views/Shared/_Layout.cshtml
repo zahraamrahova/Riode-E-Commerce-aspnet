@@ -28,7 +28,7 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
-                        <p class="welcome-msg">Welcome to Riode store message or remove it!</p>
+                        <p class="welcome-msg">@LayoutResource.WelcometoRiodeStore</p>
                     </div>
                     <div class="header-right">
                         <div class="dropdown">
@@ -52,13 +52,13 @@
                         </div>
                         <!-- End DropDown Menu -->
                         <span class="divider"></span>
-                        <a asp-controller="home" asp-action="contact" class="contact d-lg-show"><i class="d-icon-map"></i>Contact</a>
-                        <a href="#" class="help d-lg-show"><i class="d-icon-info"></i> Need Help</a>
+                        <a asp-controller="home" asp-action="contact" class="contact d-lg-show"><i class="d-icon-map"></i>@LayoutResource.Contact</a>
+                        <a href="#" class="help d-lg-show"><i class="d-icon-info"></i> @LayoutResource.NeedHelp</a>
                         <a class="login-link" href="ajax/login.html" data-toggle="login-modal">
-                            <i class="d-icon-user"></i>Sign in
+                            <i class="d-icon-user"></i>@LayoutResource.SignIn
                         </a>
                         <span class="delimiter">/</span>
-                        <a class="register-link ml-0" href="ajax/login.html" data-toggle="login-modal">Register</a>
+                        <a class="register-link ml-0" href="ajax/login.html" data-toggle="login-modal">@LayoutResource.SignRegister</a>
                         <!-- End of Login -->
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                             <form action="#" method="get" class="input-wrapper">
                                 <div class="select-box">
                                     <select id="category" name="category">
-                                        <option value="">All Categories</option>
+                                        <option value="">@LayoutResource.AllCategories</option>
                                         <option value="4">Fashion</option>
                                         <option value="12">- Women</option>
                                         <option value="13">- Men</option>
@@ -111,7 +111,7 @@
                                 <i class="d-icon-phone"></i>
                             </div>
                             <div class="icon-box-content d-lg-show">
-                                <h4 class="icon-box-title">Call Us Now:</h4>
+                                <h4 class="icon-box-title">@LayoutResource.CallUsNow:</h4>
                                 <p>0(800) 123-456</p>
                             </div>
                         </a>
@@ -123,7 +123,7 @@
                         <div class="dropdown cart-dropdown type2 cart-offcanvas mr-0 mr-lg-2">
                             <a href="#" class="cart-toggle label-block link">
                                 <div class="cart-label d-lg-show">
-                                    <span class="cart-name">Shopping Cart:</span>
+                                    <span class="cart-name">@LayoutResource.ShoppingCart:</span>
                                     <span class="cart-price">$0.00</span>
                                 </div>
                                 <i class="d-icon-bag"><span class="cart-count">2</span></i>
@@ -290,7 +290,7 @@
                         </nav>
                     </div>
                     <div class="header-right">
-                        <a href="https://d-themes.com/buynow/riodehtml" target="_blank" class="ml-6">Buy Riode!</a>
+                        <a href="https://d-themes.com/buynow/riodehtml" target="_blank" class="ml-6">@LayoutResource.BuyRiode!</a>
                     </div>
                 </div>
             </div>
@@ -314,8 +314,8 @@
                         <div class="col-lg-9">
                             <div class="widget widget-newsletter form-wrapper form-wrapper-inline">
                                 <div class="newsletter-info mx-auto mr-lg-2 ml-lg-4">
-                                    <h4 class="widget-title">Subscribe to our Newsletter</h4>
-                                    <p class="mb-0">Get all the latest information, Sales and Offers.</p>
+                                    <h4 class="widget-title">@LayoutResource.SubscribetoourNewsletter</h4>
+                                    <p class="mb-0">@LayoutResource.GetAllInformation</p>
                                 </div>
                                 <form method="post" asp-controller="Home" asp-action= "Subscribe" class="input-wrapper input-wrapper-inline" id="frmSubscribe">
                                     <input type="email" 
@@ -343,25 +343,25 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-6">
                             <div class="widget widget-info">
-                                <h4 class="widget-title">Contact Info</h4>
+                                <h4 class="widget-title">@LayoutResource.Contact</h4>
                                 <ul class="widget-body">
                                     <li>
-                                        <label>Phone:</label>
-                                        <a href="tel:#">Toll Free (123) 456-7890</a>
+                                        <label>@LayoutResource.Phone:</label>
+                                        <a href="tel:#">@LayoutResource.PhoneDetails</a>
                                     </li>
                                     <li>
-                                        <label>Email:</label>
+                                        <label>@LayoutResource.Email:</label>
                                         <a href="mailto:mail@riode.com">riode@mail.com</a>
                                     </li>
                                     <li>
-                                        <label>Address:</label>
+                                        <label>@LayoutResource.Adress:</label>
                                         <a href="#">123 Street, City, Country</a>
                                     </li>
                                     <li>
-                                        <label>WORKING DAYS / HOURS:</label>
+                                        <label>@LayoutResource.AddressDetails:</label>
                                     </li>
                                     <li>
-                                        <a href="#">Mon - Sun / 9:00 AM - 8:00 PM</a>
+                                        <a href="#">@LayoutResource.WorkingDaysHoursDetails: </a>
                                     </li>
                                 </ul>
                             </div>
@@ -369,22 +369,22 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="widget ml-lg-4">
-                                <h4 class="widget-title">About Us</h4>
+                                <h4 class="widget-title">@LayoutResource.About</h4>
                                 <ul class="widget-body">
                                     <li>
                                         <a asp-controller="home" asp-action="AboutUs">About Us</a>
                                     </li>
                                     <li>
-                                        <a href="#">Order History</a>
+                                        <a href="#">@LayoutResource.OrderHistory</a>
                                     </li>
                                     <li>
-                                        <a href="#">Returns</a>
+                                        <a href="#">@LayoutResource.Returns</a>
                                     </li>
                                     <li>
-                                        <a href="#">Custom Service</a>
+                                        <a href="#">@LayoutResource.CustomService</a>
                                     </li>
                                     <li>
-                                        <a href="#">Terms &amp; Condition</a>
+                                        <a href="#">@LayoutResource.TermsCondition</a>
                                     </li>
                                 </ul>
                             </div>
@@ -392,22 +392,22 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="widget ml-lg-4">
-                                <h4 class="widget-title">My Account</h4>
+                                <h4 class="widget-title">@LayoutResource.My_Account</h4>
                                 <ul class="widget-body">
                                     <li>
-                                        <a href="#">Sign in</a>
+                                        <a href="#">@LayoutResource.SignIn</a>
                                     </li>
                                     <li>
-                                        <a href="cart.html">View Cart</a>
+                                        <a href="cart.html">@LayoutResource.ViewCart</a>
                                     </li>
                                     <li>
-                                        <a asp-controller="account" asp-action="wishList">My wishList</a>
+                                        <a asp-controller="account" asp-action="wishList">@LayoutResource.MywishList</a>
                                     </li>
                                     <li>
-                                        <a href="#">Track My Order</a>
+                                        <a href="#">@LayoutResource.TrackMyOrder</a>
                                     </li>
                                     <li>
-                                        <a href="#">Help</a>
+                                        <a href="#">@LayoutResource.Help</a>
                                     </li>
                                 </ul>
                             </div>
@@ -455,7 +455,7 @@
                         </figure>
                     </div>
                     <div class="footer-center">
-                        <p class="copyright">Riode eCommerce &copy; 2021. All Rights Reserved</p>
+                        <p class="copyright">@LayoutResource.RiodeeCommerce</p>
                     </div>
                     <div class="footer-right">
                         <div class="social-links">
@@ -696,11 +696,11 @@
     </div>
    
      <!-- Plugins JS File -->
+    <script src="~/js/webfont.js"></script>
     <script src="~/assets/vendor/jquery/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/assets/vendor/elevatezoom/jquery.elevatezoom.min.js"></script>
     <script src="~/assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-
     <script src="~/assets/vendor/owl-carousel/owl.carousel.min.js"></script>
     <script src="~/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="~/assets/vendor/isotope/isotope.pkgd.min.js"></script>
