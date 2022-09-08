@@ -120,6 +120,9 @@
   <data name="Brands" xml:space="preserve">
     <value>Brendlər</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kateqoriyalar</value>
+  </data>
   <data name="Colors" xml:space="preserve">
     <value>Rənglər</value>
   </data>

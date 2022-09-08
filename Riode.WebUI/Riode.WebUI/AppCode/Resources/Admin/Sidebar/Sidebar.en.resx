@@ -120,6 +120,9 @@
   <data name="Brands" xml:space="preserve">
     <value>Brands</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
   <data name="Colors" xml:space="preserve">
     <value>Colors</value>
   </data>

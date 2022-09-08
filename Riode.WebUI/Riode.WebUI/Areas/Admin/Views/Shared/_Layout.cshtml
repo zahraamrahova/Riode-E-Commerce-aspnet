@@ -60,8 +60,31 @@
             height: 20px;
             margin-right: 5px;
         }
+       .select2-container--default .select2-selection--single .select2-selection__rendered{
+            background-color: unset;
+        }
+        .select2-container .select2-selection--single{
+            display:block;
+            width:100%;
+            height: calc(1.5em+ .75rem+2px);
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight:400;
+            line-height:1.5;
+            color:#495057;
+            background-color: #fff;
+            background-clip:padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out box-shadow .15s ease-in-out;
+            font-size:16px;
+            border-radius: 2px;
+            border: 1px solid #ccc;
+
+        }
         
     </style>
+    @RenderSection("addcss", required:false)
 </head>
 
 <body>
@@ -416,6 +439,12 @@
                                         <a asp-controller="Brands" asp-action="Index">
                                             <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
                                             <span class="pcoded-mtext">@Sidebar.Brands</span>
+                                        </a>
+                                    </li>
+                                      <li >
+                                        <a asp-controller="Categories" asp-action="Index">
+                                            <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
+                                            <span class="pcoded-mtext">@Sidebar.Categories</span>
                                         </a>
                                     </li>
                                 <li class="pcoded-hasmenu">
@@ -1865,7 +1894,7 @@
     <script src="~/admin/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
     <!-- Custom js -->
     <script type="text/javascript" src="~/admin/assets/js/script.js"></script>
-
+ @RenderSection("addjs", required:false)
 </body>
 
 </html>
