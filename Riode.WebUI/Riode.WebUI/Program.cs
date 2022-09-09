@@ -1,7 +1,11 @@
+using MediatR;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Application.BrandModule;
 using Riode.WebUI.AppCode.Midlewares;
 using Riode.WebUI.AppCode.Providers;
 using Riode.WebUI.Models.DAL;
+using System.Reflection;
 
 namespace Riode.WebUI
 {
@@ -18,7 +22,10 @@ namespace Riode.WebUI
             });
             builder.Services.AddRouting(cfg => cfg.LowercaseUrls = true);
             builder.Services.AddDbContext<RiodeDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+            builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            builder.Services.AddMediatR(typeof(BrandSingleQuery).GetTypeInfo().Assembly);
+            builder.Services.AddMediatR(typeof(BrandCreateCommand).GetTypeInfo().Assembly);
+            builder.Services.AddMediatR(typeof(BrandEditCommand).GetTypeInfo().Assembly);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

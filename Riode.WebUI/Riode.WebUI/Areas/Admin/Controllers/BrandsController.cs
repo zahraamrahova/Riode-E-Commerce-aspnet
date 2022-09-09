@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Application.BrandModule;
 using Riode.WebUI.Models.DAL;
 using Riode.WebUI.Models.Entities;
 
@@ -14,30 +16,26 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     public class BrandsController : Controller
     {
         private readonly RiodeDbContext _db;
+        private readonly IMediator _mediator;
 
-        public BrandsController(RiodeDbContext db)
+        public BrandsController(RiodeDbContext db, IMediator mediator)
         {
             _db = db;
+            _mediator = mediator;
         }
 
         // GET: Admin/Brands
         public async Task<IActionResult> Index()
         {
               return _db.Brands != null ? 
-                          View(await _db.Brands.ToListAsync()) :
+                          View(await _db.Brands.Where(b=>b.DeletedByUserId==null).ToListAsync()) :
                           Problem("Entity set 'RiodeDbContext.Brands'  is null.");
         }
 
         // GET: Admin/Brands/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(BrandSingleQuery query)
         {
-            if (id == null || _db.Brands == null)
-            {
-                return NotFound();
-            }
-
-            var brand = await _db.Brands
-                .FirstOrDefaultAsync(m => m.Id == id);
+            Brand brand = await _mediator.Send(query);
             if (brand == null)
             {
                 return NotFound();
@@ -53,112 +51,57 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/Brands/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] Brand brand)
+        public async Task<IActionResult> Create(BrandCreateCommand request)
         {
-            if (ModelState.IsValid)
-            {
-                _db.Add(brand);
-                await _db.SaveChangesAsync();
+            int id = await _mediator.Send(request);
+            if (id>0)
+
                 return RedirectToAction(nameof(Index));
-            }
-            return View(brand);
+            return View(request);
         }
 
         // GET: Admin/Brands/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(BrandSingleQuery query)
         {
-            if (id == null || _db.Brands == null)
-            {
-                return NotFound();
-            }
-
-            var brand = await _db.Brands.FindAsync(id);
+            Brand brand = await _mediator.Send(query);
             if (brand == null)
             {
                 return NotFound();
             }
-            return View(brand);
-        }
+            BrandViewModel vm = new BrandViewModel();
+            {
+                vm.Id = brand.Id;
+                vm.Name = brand.Name;
+                vm.Description = brand.Description;
+            }
+            return View(vm);
+
+    }
 
         // POST: Admin/Brands/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] Brand brand)
+        public async Task<IActionResult> Edit(BrandEditCommand request)
         {
-            if (id != brand.Id)
-            {
-                return NotFound();
-            }
+             int id = await _mediator.Send(request);
+            if (id > 0)
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _db.Update(brand);
-                    await _db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BrandExists(brand.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(brand);
+            return View(request);
+
+
         }
 
-        // GET: Admin/Brands/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+       [HttpPost]
+        public async Task<IActionResult> Delete(BrandRemoveCommand request)
         {
-            if (id == null || _db.Brands == null)
-            {
-                return NotFound();
-            }
-
-            var brand = await _db.Brands
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (brand == null)
-            {
-                return NotFound();
-            }
-
-            return View(brand);
+            var response = await _mediator.Send(request);
+            return Json(response);
+           
         }
 
-        // POST: Admin/Brands/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_db.Brands == null)
-            {
-                return Problem("Entity set 'RiodeDbContext.Brands'  is null.");
-            }
-            var brand = await _db.Brands.FindAsync(id);
-            if (brand != null)
-            {
-                _db.Brands.Remove(brand);
-            }
-            
-            await _db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool BrandExists(int id)
-        {
-          return (_db.Brands?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+    
     }
 }
