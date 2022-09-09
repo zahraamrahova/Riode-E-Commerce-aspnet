@@ -47,15 +47,14 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Categories/Create
-        public IActionResult Create()
+        public  IActionResult Create()
         {
-            ViewData["ParentId"] = new SelectList(_db.Categories, "Id", "Id");
+            
+            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name");
             return View();
         }
 
         // POST: Admin/Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ParentId,Name,Description,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] Category category)
@@ -66,7 +65,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                 await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentId"] = new SelectList(_db.Categories, "Id", "Id", category.ParentId);
+            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", category.Name);
             return View(category);
         }
 
@@ -83,13 +82,11 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-           ViewBag.ParentId = new SelectList(_db.Categories, "Id", "Id", category.ParentId);
+            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", category.Name);
             return View(category);
         }
 
-        // POST: Admin/Categories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Admin/Categories/Edit/5      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ParentId,Name,Description,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] Category category)
@@ -119,7 +116,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentId"] = new SelectList(_db.Categories, "Id", "Id", category.ParentId);
+            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", category.Name);
             return View(category);
         }
 
