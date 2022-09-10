@@ -132,4 +132,7 @@
   <data name="Sizes" xml:space="preserve">
     <value>Sizes</value>
   </data>
+  <data name="Specifications" xml:space="preserve">
+    <value>Specifications</value>
+  </data>
 </root>

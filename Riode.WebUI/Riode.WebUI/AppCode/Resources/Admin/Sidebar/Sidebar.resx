@@ -132,4 +132,7 @@
   <data name="Sizes" xml:space="preserve">
     <value>Ölçülər</value>
   </data>
+  <data name="Specifications" xml:space="preserve">
+    <value>Göstəricilər</value>
+  </data>
 </root>

@@ -33,6 +33,7 @@
     <link rel="stylesheet" type="text/css" href="~/admin/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="~/admin/assets/css/jquery.mCustomScrollbar.css">
     <link rel="stylesheet" href="~/admin/assets/scss/partials/menu/_pcmenu.html">
+    <link rel="stylesheet" href="~/lib/toastr.js/toastr.css" />
     <script src="https://kit.fontawesome.com/4f9ad98695.js" crossorigin="anonymous"></script>
     <style>
        .table td,
@@ -76,6 +77,35 @@
         }
         .select2-container--default .select2-selection--single .select2-selection__arrow b {
             top:64% !important;
+        }
+        .pagination {
+            float:right;
+        }
+        .pagination li{
+            margin-right: 0;
+            display: inline-block;
+        }
+        .pagination li a{
+           padding: 20px;
+            display: inline-block;
+            user-select: none;
+            padding: 10px 15px;
+            display:inline-block;
+            border: 0.5px solid #dde2e6;
+        }
+        .pagination li:first-child a {
+            border-radius: 5px 0 0 5px;
+        }
+        .pagination li:not(:last-child) a{
+            border-right: none;
+        }
+         .pagination li:last-child a {
+            border-radius: 0 5px 5px 0;
+        }
+        pagination .li.active a{
+            background-color: #1a9ac;
+            border-color: #1a9ac;
+            color:#ffffff;
         }
        
 
@@ -441,6 +471,12 @@
                                         <a asp-controller="Categories" asp-action="Index">
                                             <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
                                             <span class="pcoded-mtext">@Sidebar.Categories</span>
+                                        </a>
+                                    </li>
+                                    <li >
+                                        <a asp-controller="Specifications" asp-action="Index">
+                                            <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
+                                            <span class="pcoded-mtext">@Sidebar.Specifications</span>
                                         </a>
                                     </li>
                                 <li class="pcoded-hasmenu">
@@ -1888,6 +1924,8 @@
     <script src="~/admin/assets/js/pcoded.min.js"></script>
     <script src="~/admin/assets/js/vartical-layout.min.js"></script>
     <script src="~/admin/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
     <!-- Custom js -->
     <script type="text/javascript" src="~/admin/assets/js/script.js"></script>
     @RenderSection("addjs", required:false)

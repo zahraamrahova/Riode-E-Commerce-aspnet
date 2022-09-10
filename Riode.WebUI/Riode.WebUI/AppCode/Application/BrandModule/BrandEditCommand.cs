@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Riode.WebUI.AppCode.Application.BrandModule
 {
-    public class BrandEditCommand: BrandViewModel, IRequest<int>
+    public class BrandEditCommand : BrandViewModel, IRequest<int>
     {
 
         public class BrandEditCommandHandler :  IRequestHandler<BrandEditCommand, int>

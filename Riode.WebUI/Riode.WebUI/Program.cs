@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.AppCode.Application.BrandModule;
+using Riode.WebUI.AppCode.Application.SpecificationModule;
 using Riode.WebUI.AppCode.Midlewares;
 using Riode.WebUI.AppCode.Providers;
 using Riode.WebUI.Models.DAL;
@@ -26,6 +27,11 @@ namespace Riode.WebUI
             builder.Services.AddMediatR(typeof(BrandSingleQuery).GetTypeInfo().Assembly);
             builder.Services.AddMediatR(typeof(BrandCreateCommand).GetTypeInfo().Assembly);
             builder.Services.AddMediatR(typeof(BrandEditCommand).GetTypeInfo().Assembly);
+            builder.Services.AddMediatR(typeof(BrandRemoveCommand).GetTypeInfo().Assembly);
+            builder.Services.AddMediatR(typeof(SpecificationSingleQuery).GetTypeInfo().Assembly);
+            builder.Services.AddMediatR(typeof(SpecificationCreateCommand).GetTypeInfo().Assembly);
+            builder.Services.AddMediatR(typeof(SpecificationEditCommand).GetTypeInfo().Assembly);
+            builder.Services.AddMediatR(typeof(SpecificationRemoveCommand).GetTypeInfo().Assembly);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

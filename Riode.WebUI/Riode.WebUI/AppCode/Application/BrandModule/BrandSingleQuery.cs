@@ -5,7 +5,7 @@ using Riode.WebUI.Models.Entities;
 
 namespace Riode.WebUI.AppCode.Application.BrandModule
 {
-    public class BrandSingleQuery: IRequest<Brand>
+    public class BrandSingleQuery : IRequest<Brand>
     {
         public int? Id { get; set; }
         public class BrandSingleQueryHandler : IRequestHandler<BrandSingleQuery, Brand>

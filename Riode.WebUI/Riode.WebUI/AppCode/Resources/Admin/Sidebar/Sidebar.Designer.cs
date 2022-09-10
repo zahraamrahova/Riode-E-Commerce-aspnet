@@ -104,5 +104,14 @@ namespace Resources {
                 return ResourceManager.GetString("Sizes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Göstəricilər.
+        /// </summary>
+        public static string Specifications {
+            get {
+                return ResourceManager.GetString("Specifications", resourceCulture);
+            }
+        }
     }
 }

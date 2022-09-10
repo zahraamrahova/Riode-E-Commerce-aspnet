@@ -25,11 +25,10 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Brands
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(BrandPagedQuery query)
         {
-              return _db.Brands != null ? 
-                          View(await _db.Brands.Where(b=>b.DeletedByUserId==null).ToListAsync()) :
-                          Problem("Entity set 'RiodeDbContext.Brands'  is null.");
+            var response = await _mediator.Send(query);
+            return View(response);
         }
 
         // GET: Admin/Brands/Details/5

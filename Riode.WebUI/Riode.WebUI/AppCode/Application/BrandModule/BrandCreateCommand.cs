@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Riode.WebUI.AppCode.Application.BrandModule
 {
-    public class BrandCreateCommand:IRequest<int>
+    public class BrandCreateCommand : IRequest<int>
     {
         [Required]
         public string Name { get; set; }
