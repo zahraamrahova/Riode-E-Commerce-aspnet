@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Application.ProductSizeModule;
 using Riode.WebUI.Models.DAL;
 using Riode.WebUI.Models.Entities;
 
@@ -14,30 +16,25 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     public class ProductSizesController : Controller
     {
         private readonly RiodeDbContext _db;
+        private readonly IMediator _mediator;
 
-        public ProductSizesController(RiodeDbContext db)
+        public ProductSizesController(RiodeDbContext db, IMediator mediator)
         {
             _db = db;
+            _mediator = mediator;
         }
 
         // GET: Admin/ProductSizes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(ProductSizePagedQuery query)
         {
-              return _db.ProductSizes != null ? 
-                          View(await _db.ProductSizes.ToListAsync()) :
-                          Problem("Entity set 'RiodeDbContext.ProductSizes'  is null.");
+            var response = await _mediator.Send(query);
+            return View(response);
         }
 
         // GET: Admin/ProductSizes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(ProductSizeSingleQuery query)
         {
-            if (id == null || _db.ProductSizes == null)
-            {
-                return NotFound();
-            }
-
-            var productSize = await _db.ProductSizes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            ProductSize productSize = await _mediator.Send(query);
             if (productSize == null)
             {
                 return NotFound();
@@ -53,112 +50,53 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/ProductSizes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Abbr,Name,Description,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] ProductSize productSize)
+        public async Task<IActionResult> Create(ProductSizeCreateCommand request)
         {
-            if (ModelState.IsValid)
-            {
-                _db.Add(productSize);
-                await _db.SaveChangesAsync();
+            int id = await _mediator.Send(request);
+            if (id > 0)
+
                 return RedirectToAction(nameof(Index));
-            }
-            return View(productSize);
+            return View(request);
         }
 
         // GET: Admin/ProductSizes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(ProductSizeSingleQuery query)
         {
-            if (id == null || _db.ProductSizes == null)
-            {
-                return NotFound();
-            }
-
-            var productSize = await _db.ProductSizes.FindAsync(id);
+            ProductSize productSize = await _mediator.Send(query);
             if (productSize == null)
             {
                 return NotFound();
             }
-            return View(productSize);
+            ProductSizeViewModel vm = new ProductSizeViewModel();
+            {
+                vm.Id = productSize.Id;
+                vm.Abbr = productSize.Abbr;
+                vm.Name = productSize.Name;
+                vm.Description = productSize.Description;
+            }
+            return View(vm);
         }
 
         // POST: Admin/ProductSizes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Abbr,Name,Description,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] ProductSize productSize)
+        public async Task<IActionResult> Edit(ProductSizeEditCommand request)
         {
-            if (id != productSize.Id)
-            {
-                return NotFound();
-            }
+            int id = await _mediator.Send(request);
+            if (id > 0)
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _db.Update(productSize);
-                    await _db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductSizeExists(productSize.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(productSize);
+            return View(request);
         }
 
         // GET: Admin/ProductSizes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(ProductSizeRemoveCommand request)
         {
-            if (id == null || _db.ProductSizes == null)
-            {
-                return NotFound();
-            }
-
-            var productSize = await _db.ProductSizes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (productSize == null)
-            {
-                return NotFound();
-            }
-
-            return View(productSize);
+            var response = await _mediator.Send(request);
+            return Json(response);
         }
 
-        // POST: Admin/ProductSizes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_db.ProductSizes == null)
-            {
-                return Problem("Entity set 'RiodeDbContext.ProductSizes'  is null.");
-            }
-            var productSize = await _db.ProductSizes.FindAsync(id);
-            if (productSize != null)
-            {
-                _db.ProductSizes.Remove(productSize);
-            }
-            
-            await _db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProductSizeExists(int id)
-        {
-          return (_db.ProductSizes?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
     }
 }

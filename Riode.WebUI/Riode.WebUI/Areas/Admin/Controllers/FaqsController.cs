@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Application.FaqModule;
 using Riode.WebUI.Models.DAL;
 using Riode.WebUI.Models.Entities;
 
@@ -14,30 +16,25 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     public class FaqsController : Controller
     {
         private readonly RiodeDbContext _db;
+        private readonly IMediator _mediator;
 
-        public FaqsController(RiodeDbContext db)
+        public FaqsController(RiodeDbContext db, IMediator mediator)
         {
             _db = db;
+            _mediator = mediator;
         }
 
         // GET: Admin/Faqs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(FaqPagedQuery query)
         {
-              return _db.Faqs != null ? 
-                          View(await _db.Faqs.ToListAsync()) :
-                          Problem("Entity set 'RiodeDbContext.Faqs'  is null.");
+            var response = await _mediator.Send(query);
+            return View(response);
         }
 
         // GET: Admin/Faqs/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(FaqSingleQuery query)
         {
-            if (id == null || _db.Faqs == null)
-            {
-                return NotFound();
-            }
-
-            var faq = await _db.Faqs
-                .FirstOrDefaultAsync(m => m.Id == id);
+            Faq faq = await _mediator.Send(query);
             if (faq == null)
             {
                 return NotFound();
@@ -53,112 +50,51 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/Faqs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Question,Answer,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] Faq faq)
+        public async Task<IActionResult> Create(FaqCreateCommand request)
         {
-            if (ModelState.IsValid)
-            {
-                _db.Add(faq);
-                await _db.SaveChangesAsync();
+            int id = await _mediator.Send(request);
+            if (id > 0)
+
                 return RedirectToAction(nameof(Index));
-            }
-            return View(faq);
+            return View(request);
         }
 
         // GET: Admin/Faqs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(FaqSingleQuery query)
         {
-            if (id == null || _db.Faqs == null)
-            {
-                return NotFound();
-            }
-
-            var faq = await _db.Faqs.FindAsync(id);
+            Faq faq = await _mediator.Send(query);
             if (faq == null)
             {
                 return NotFound();
             }
-            return View(faq);
+            FaqViewModel vm = new FaqViewModel();
+            {
+                vm.Id = faq.Id;
+                vm.Question = faq.Question;
+                vm.Answer = faq.Answer;
+            }
+            return View(vm);
         }
 
         // POST: Admin/Faqs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Question,Answer,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] Faq faq)
+        public async Task<IActionResult> Edit(FaqEditCommand request)
         {
-            if (id != faq.Id)
-            {
-                return NotFound();
-            }
+            int id = await _mediator.Send(request);
+            if (id > 0)
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _db.Update(faq);
-                    await _db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FaqExists(faq.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(faq);
+            return View(request);
         }
 
         // GET: Admin/Faqs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(FaqRemoveCommand request)
         {
-            if (id == null || _db.Faqs == null)
-            {
-                return NotFound();
-            }
-
-            var faq = await _db.Faqs
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (faq == null)
-            {
-                return NotFound();
-            }
-
-            return View(faq);
-        }
-
-        // POST: Admin/Faqs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_db.Faqs == null)
-            {
-                return Problem("Entity set 'RiodeDbContext.Faqs'  is null.");
-            }
-            var faq = await _db.Faqs.FindAsync(id);
-            if (faq != null)
-            {
-                _db.Faqs.Remove(faq);
-            }
-            
-            await _db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool FaqExists(int id)
-        {
-          return (_db.Faqs?.Any(e => e.Id == id)).GetValueOrDefault();
+            var response = await _mediator.Send(request);
+            return Json(response);
         }
     }
 }

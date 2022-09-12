@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProductColor>
+﻿@model PagedViewModel<ProductColor>
 @{
     ViewData["Title"] = "Index";
 }
@@ -33,13 +33,6 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <h5>Product Sizes</h5>
-            @* <span>Example of <code>horizontal</code> table borders. This is a
-                                                    default table border style attached to <code>.table</code> class.
-                                                    All borders have the same grey color and style, table itself doesn't
-                                                    have a border, but you can add this border using
-                                                    <code>.table-framed</code> class added to the table with
-                                                    <code>.table</code> class.</span>*@
-
                                             </div>
                                             <div class="card-block table-border-style">
                                                 <div class="table-responsive">
@@ -48,13 +41,13 @@
         <tr>
             <th>
 
-                                @Html.DisplayNameFor(model => model.HexCode)
+                                HexCode
             </th>
             <th>
-                                @Html.DisplayNameFor(model => model.Name)
+                               Name
             </th>
             <th>
-                                @Html.DisplayNameFor(model => model.Description)
+                               Description
             </th>
             <th class="operate-cell">
                                    <a class="btn btn-sm btn-success btn-outline-success" asp-action="Create"><i class="fas fa-plus"></i></a>
@@ -62,7 +55,7 @@
         </tr>
     </thead>
     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.Items)
                         {
                     <tr>
                         <td>
@@ -87,6 +80,68 @@
     </tbody>
                                                     </table>
                                                 </div>
+                                                   <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-5">
+                                                         <div class="dataTable_info" id="single-select_info" role="status" aria-live="polite">
+                                                          Showing 1 to 10 of 57 entries </div> </div>
+                                                  <div class="col-xs-12 col-sm-12 col-md-7 p-4">                                            
+                                                    @Model.GetPagenation(Url, "Index", "Admin")
+                                                       </div>
+                                                     </div>
                                             </div>
                                         </div>
                                     </div>
+  @section addjs {
+                                        <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+
+                                        <script>
+                                            function removeEntity(id,name){
+                                                swal({
+                                              title: "Are you sure?",
+                                              text: `You will not be able to recover this '${name}' brand!`,
+                                              icon: "warning",        
+                                              confirmButtonClass: "btn-danger",
+                                              buttons: ["No", "Yes"]                                     
+                                            }).then(function(isConfirm) {
+                                              if (isConfirm) {
+                                               $.ajax({
+                                                        url: '@Url.Action("Delete")',
+                                                        type: 'POST',
+                                                        data: {id},                                         
+                                                        contentType: 'application/x-www-form-urlencoded',                                          
+                                                        dataType: 'json',
+                                                        beforeSend: function(){
+                                                            console.log('sorgudan evvel');
+                                                        },
+                                                        success: function(response){                                               
+                                                            console.log(response);
+                                                            if(response.error==false){       
+                                        toastr.success(response.message, "Brand Deleted", {
+                                                        timeOut: 1000,
+                                                        fadeOut: 1000,
+                                                         onHidden: function () {
+                                                        window.location.reload();
+                                                         }
+                                                         });
+                                                                
+                                    }
+                                    else {
+                                    toastr.error(response.message, "Error");
+                                    }
+
+                                                        },
+                                                        error: function (response){
+                                                            console.log(response);
+                                                        }
+
+                                                    })
+                                                    .always(function(){
+                                                        console.log('sorgudan sonra');
+                                                    });
+
+
+                                             }
+                                            });
+                                            }
+                                        </script>
+                            }

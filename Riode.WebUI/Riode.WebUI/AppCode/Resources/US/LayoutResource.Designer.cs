@@ -259,6 +259,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Qeydiyyat.
+        /// </summary>
+        public static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Qaytarılanlar.
         /// </summary>
         public static string Returns {
@@ -300,15 +309,6 @@ namespace Resources {
         public static string SignIn {
             get {
                 return ResourceManager.GetString("SignIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Qeydiyyat.
-        /// </summary>
-        public static string SignRegister {
-            get {
-                return ResourceManager.GetString("SignRegister", resourceCulture);
             }
         }
         

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Application.ProductColorModule;
 using Riode.WebUI.Models.DAL;
 using Riode.WebUI.Models.Entities;
 
@@ -14,30 +16,25 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     public class ProductColorsController : Controller
     {
         private readonly RiodeDbContext _db;
+        private readonly IMediator _mediator;
 
-        public ProductColorsController(RiodeDbContext db)
+        public ProductColorsController(RiodeDbContext db, IMediator mediator)
         {
             _db = db;
+            _mediator = mediator;
         }
 
         // GET: Admin/ProductColors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(ProductColorPagedQuery query)
         {
-              return _db.ProductColors != null ? 
-                          View(await _db.ProductColors.ToListAsync()) :
-                          Problem("Entity set 'RiodeDbContext.ProductColors'  is null.");
+            var response = await _mediator.Send(query);
+            return View(response);
         }
 
         // GET: Admin/ProductColors/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(ProductColorSingleQuery query)
         {
-            if (id == null || _db.ProductColors == null)
-            {
-                return NotFound();
-            }
-
-            var productColor = await _db.ProductColors
-                .FirstOrDefaultAsync(m => m.Id == id);
+            ProductColor productColor = await _mediator.Send(query);
             if (productColor == null)
             {
                 return NotFound();
@@ -53,112 +50,54 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/ProductColors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("HexCode,Name,Description,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] ProductColor productColor)
+        public async Task<IActionResult> Create(ProductColorCreateCommand request)
         {
-            if (ModelState.IsValid)
-            {
-                _db.Add(productColor);
-                await _db.SaveChangesAsync();
+            int id = await _mediator.Send(request);
+            if (id > 0)
+
                 return RedirectToAction(nameof(Index));
-            }
-            return View(productColor);
+            return View(request);
         }
 
         // GET: Admin/ProductColors/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(ProductColorSingleQuery query)
         {
-            if (id == null || _db.ProductColors == null)
-            {
-                return NotFound();
-            }
-
-            var productColor = await _db.ProductColors.FindAsync(id);
+            ProductColor productColor = await _mediator.Send(query);
             if (productColor == null)
             {
                 return NotFound();
             }
-            return View(productColor);
+            ProductColorViewModel vm = new ProductColorViewModel();
+            {
+                vm.Id = productColor.Id;
+                vm.HexCode = productColor.HexCode;
+                vm.Name = productColor.Name;
+                vm.Description = productColor.Description;
+            }
+            return View(vm);
         }
 
         // POST: Admin/ProductColors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("HexCode,Name,Description,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] ProductColor productColor)
+        public async Task<IActionResult> Edit(ProductColorEditCommand request)
         {
-            if (id != productColor.Id)
-            {
-                return NotFound();
-            }
+            int id = await _mediator.Send(request);
+            if (id > 0)
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _db.Update(productColor);
-                    await _db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductColorExists(productColor.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(productColor);
+            return View(request);
+
         }
 
         // GET: Admin/ProductColors/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(ProductColorRemoveCommand request)
         {
-            if (id == null || _db.ProductColors == null)
-            {
-                return NotFound();
-            }
-
-            var productColor = await _db.ProductColors
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (productColor == null)
-            {
-                return NotFound();
-            }
-
-            return View(productColor);
+            var response = await _mediator.Send(request);
+            return Json(response);
         }
 
-        // POST: Admin/ProductColors/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_db.ProductColors == null)
-            {
-                return Problem("Entity set 'RiodeDbContext.ProductColors'  is null.");
-            }
-            var productColor = await _db.ProductColors.FindAsync(id);
-            if (productColor != null)
-            {
-                _db.ProductColors.Remove(productColor);
-            }
-            
-            await _db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProductColorExists(int id)
-        {
-          return (_db.ProductColors?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
     }
 }

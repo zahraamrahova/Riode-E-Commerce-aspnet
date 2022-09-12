@@ -58,7 +58,7 @@
                             <i class="d-icon-user"></i>@LayoutResource.SignIn
                         </a>
                         <span class="delimiter">/</span>
-                        <a class="register-link ml-0" href="ajax/login.html" data-toggle="login-modal">@LayoutResource.SignRegister</a>
+                        <a class="register-link ml-0" href="ajax/login.html" data-toggle="login-modal">@LayoutResource.SignIn|@LayoutResource.Register</a>
                         <!-- End of Login -->
                     </div>
                 </div>
@@ -355,13 +355,13 @@
                                     </li>
                                     <li>
                                         <label>@LayoutResource.Adress:</label>
-                                        <a href="#">123 Street, City, Country</a>
+                                        <a href="#">@LayoutResource.AddressDetails</a>
                                     </li>
                                     <li>
-                                        <label>@LayoutResource.AddressDetails:</label>
+                                        <label>@LayoutResource.WorkingDaysHours:</label>
                                     </li>
                                     <li>
-                                        <a href="#">@LayoutResource.WorkingDaysHoursDetails: </a>
+                                        <a href="#">@LayoutResource.WorkingDaysHoursDetails </a>
                                     </li>
                                 </ul>
                             </div>
@@ -372,7 +372,7 @@
                                 <h4 class="widget-title">@LayoutResource.About</h4>
                                 <ul class="widget-body">
                                     <li>
-                                        <a asp-controller="home" asp-action="AboutUs">About Us</a>
+                                        <a asp-controller="home" asp-action="AboutUs">@LayoutResource.About</a>
                                     </li>
                                     <li>
                                         <a href="#">@LayoutResource.OrderHistory</a>
