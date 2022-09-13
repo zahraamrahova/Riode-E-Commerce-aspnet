@@ -16,7 +16,7 @@ namespace Riode.WebUI.Controllers
             _db = db;
 
         }
-        [AllowAnonymous]
+        
         public IActionResult Index()
         {
             ShopFilterViewModel vm = new ShopFilterViewModel();
