@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Riode.WebUI.AppCode.Extensions;
 using Riode.WebUI.Models;
 using Riode.WebUI.Models.DAL;
@@ -10,6 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace Riode.WebUI.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

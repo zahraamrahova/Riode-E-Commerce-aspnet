@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Category>
+﻿@model PagedViewModel<Category>
 
 @{
     ViewData["Title"] = "Index";
@@ -41,10 +41,10 @@
                                                        <thead>
                                              <tr>
                                <th>
-                                @Html.DisplayNameFor(model => model.Name)
+                                Name
                                 </th>
                                <th>
-                                @Html.DisplayNameFor(model => model.Description)
+                                Description
                                </th>
                                 <th class="operate-cell">
                                    <a class="btn btn-sm btn-success btn-outline-success" asp-action="Create"><i class="fas fa-plus"></i></a>
@@ -52,14 +52,14 @@
                                </tr>
                                </thead>
     <tbody>
-                        @foreach (var item in Model.Where(c=>c.ParentId==null))
+                        @foreach (var item in Model.Items.Where(c=>c.ParentId==null))
                         {
                             <tr class="treegrid-@item.Id">
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
+                                    @item.Name
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
+                                    @item.Description
                                 </td>
                                 <td class="operate-cell">
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning btn-outline-warning"><i class="fas fa-pencil-alt"></i></a> 
@@ -89,6 +89,14 @@
     </tbody>
                                                     </table>
                                                 </div>
+                                                 <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-5">
+                                                         <div class="dataTable_info" id="single-select_info" role="status" aria-live="polite">
+                                                          Showing 1 to 10 of 57 entries </div> </div>
+                                                  <div class="col-xs-12 col-sm-12 col-md-7 p-4">                                            
+                                                    @Model.GetPagenation(Url, "Index", "Admin")
+                                                       </div>
+                                                     </div>
                                             </div>
                                         </div>
                                     </div>
@@ -97,8 +105,57 @@
 }
     @section addjs{
             <script src="~/lib/jquery-treegrid/js/jquery.treegrid.js"></script>
+            <script src="~/lib/sweetalert/sweetalert.min.js"></script>
 
             <script type="text/javascript">
           $('.tree').treegrid();
+            function removeEntity(id,name){
+                                                swal({
+                                              title: "Are you sure?",
+                                              text: `You will not be able to recover this '${name}' brand!`,
+                                              icon: "warning",        
+                                              confirmButtonClass: "btn-danger",
+                                              buttons: ["No", "Yes"]                                     
+                                            }).then(function(isConfirm) {
+                                              if (isConfirm) {
+                                               $.ajax({
+                                                        url: '@Url.Action("Delete")',
+                                                        type: 'POST',
+                                                        data: {id},                                         
+                                                        contentType: 'application/x-www-form-urlencoded',                                          
+                                                        dataType: 'json',
+                                                        beforeSend: function(){
+                                                            console.log('sorgudan evvel');
+                                                        },
+                                                        success: function(response){                                               
+                                                            console.log(response);
+                                                            if(response.error==false){       
+                                        toastr.success(response.message, "Brand Deleted", {
+                                                        timeOut: 1000,
+                                                        fadeOut: 1000,
+                                                         onHidden: function () {
+                                                        window.location.reload();
+                                                         }
+                                                         });
+                                                                
+                                    }
+                                    else {
+                                    toastr.error(response.message, "Error");
+                                    }
+
+                                                        },
+                                                        error: function (response){
+                                                            console.log(response);
+                                                        }
+
+                                                    })
+                                                    .always(function(){
+                                                        console.log('sorgudan sonra');
+                                                    });
+
+
+                                             }
+                                            });
+                                            }
             </script>
 }

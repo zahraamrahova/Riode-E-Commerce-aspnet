@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Application.CategoryModule;
 using Riode.WebUI.Models.DAL;
 using Riode.WebUI.Models.Entities;
 
@@ -14,30 +16,25 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     public class CategoriesController : Controller
     {
         private readonly RiodeDbContext _db;
+        private readonly IMediator _mediator;
 
-        public CategoriesController(RiodeDbContext db)
+        public CategoriesController(RiodeDbContext db, IMediator mediator)
         {
             _db = db;
+            _mediator = mediator;
         }
 
         // GET: Admin/Categories
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CategoryPagedQuery query)
         {
-            var riodeDbContext = _db.Categories;
-            return View(await riodeDbContext.ToListAsync());
+            var response = await _mediator.Send(query);
+            return View(response);
         }
 
         // GET: Admin/Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(CategorySingleQuery query)
         {
-            if (id == null || _db.Categories == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _db.Categories
-                .Include(c => c.Parent)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            Category category = await _mediator.Send(query);
             if (category == null)
             {
                 return NotFound();
@@ -57,30 +54,28 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Categories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ParentId,Name,Description,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] Category category)
+        public async Task<IActionResult> Create(CategoryCreateCommand request)
         {
-            if (ModelState.IsValid)
-            {
-                _db.Add(category);
-                await _db.SaveChangesAsync();
+            int id = await _mediator.Send(request);
+            if (id > 0)
                 return RedirectToAction(nameof(Index));
-            }
-            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", category.Name);
-            return View(category);
+            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", request.Name);
+            return View(request);
         }
 
         // GET: Admin/Categories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(CategorySingleQuery query)
         {
-            if (id == null || _db.Categories == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _db.Categories.FindAsync(id);
+            Category category = await _mediator.Send(query);
             if (category == null)
             {
                 return NotFound();
+            }
+            CategoryViewModel vm = new CategoryViewModel();
+            {
+                vm.Id = category.Id;
+                vm.Name = category.Name;
+                vm.Description = category.Description;
             }
             ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", category.Name);
             return View(category);
@@ -89,78 +84,22 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Categories/Edit/5      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ParentId,Name,Description,Id,CreatedByUserId,CreatedDate,DeletedByUserId,DeletedDate")] Category category)
+        public async Task<IActionResult> Edit(CategoryEditCommand request)
         {
-            if (id != category.Id)
-            {
-                return NotFound();
-            }
+            int id = await _mediator.Send(request);
+            if (id > 0)
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _db.Update(category);
-                    await _db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", category.Name);
-            return View(category);
+            
+            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", request.Name);
+            return View(request);
         }
 
         // GET: Admin/Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(CategoryRemoveCommand request)
         {
-            if (id == null || _db.Categories == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _db.Categories
-                .Include(c => c.Parent)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
-        }
-
-        // POST: Admin/Categories/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_db.Categories == null)
-            {
-                return Problem("Entity set 'RiodeDbContext.Categories'  is null.");
-            }
-            var category = await _db.Categories.FindAsync(id);
-            if (category != null)
-            {
-                _db.Categories.Remove(category);
-            }
-            
-            await _db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool CategoryExists(int id)
-        {
-          return (_db.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+            var response = await _mediator.Send(request);
+            return Json(response);
         }
     }
 }

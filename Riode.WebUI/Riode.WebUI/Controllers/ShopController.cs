@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.Models.DAL;
 using Riode.WebUI.Models.Entities;
@@ -15,6 +16,7 @@ namespace Riode.WebUI.Controllers
             _db = db;
 
         }
+        [AllowAnonymous]
         public IActionResult Index()
         {
             ShopFilterViewModel vm = new ShopFilterViewModel();
@@ -25,6 +27,7 @@ namespace Riode.WebUI.Controllers
             vm.Products = _db.Products.Include(b => b.Images.Where(i => i.IsMain == true)).Include(b => b.Brand).Where(p => p.DeletedByUserId == null).ToList();
             return View(vm);
         }
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Filter(ShopFilterFormModel model)
         {
@@ -55,6 +58,7 @@ namespace Riode.WebUI.Controllers
 
             //});
         }
+        [AllowAnonymous]
         public IActionResult Details(int id)
         {
             Product product = _db.Products.Include(p => p.Images).Include(p => p.SpecificationValues.Where(s => s.DeletedByUserId == null)).ThenInclude(s => s.Specification).FirstOrDefault(p => p.Id == id && p.DeletedByUserId == null);
