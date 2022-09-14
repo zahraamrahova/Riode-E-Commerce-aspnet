@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\AccountController.cs~RF36c8c7.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\admin\bower_components\animate.css\animate.css" />
     <Content Include="wwwroot\admin\bower_components\bootstrap-daterangepicker\daterangepicker.css" />
     <Content Include="wwwroot\admin\bower_components\bootstrap-multiselect\dist\css\bootstrap-multiselect.css" />

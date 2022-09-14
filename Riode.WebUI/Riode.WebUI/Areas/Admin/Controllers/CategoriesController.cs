@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,96 +11,107 @@ using Riode.WebUI.AppCode.Application.CategoryModule;
 using Riode.WebUI.Models.DAL;
 using Riode.WebUI.Models.Entities;
 
-namespace Riode.WebUI.Areas.Admin.Controllers
-{
-    [Area("Admin")]
-    public class CategoriesController : Controller
-    {
-        private readonly RiodeDbContext _db;
-        private readonly IMediator _mediator;
+//namespace Riode.WebUI.Areas.Admin.Controllers
+//{
+//    [Area("Admin")]
+//    public class CategoriesController : Controller
+//    {
+//        private readonly RiodeDbContext _db;
+//        private readonly IMediator _mediator;
 
-        public CategoriesController(RiodeDbContext db, IMediator mediator)
-        {
-            _db = db;
-            _mediator = mediator;
-        }
+//        public CategoriesController(RiodeDbContext db, IMediator mediator)
+//        {
+//            _db = db;
+//            _mediator = mediator;
+//        }
+//        [Authorize (Policy="admin.categories.index")]
+//        // GET: Admin/Categories
+//        public async Task<IActionResult> Index(CategoryPagedQuery query)
+//        {
+//            var response = await _mediator.Send(query);
+//            return View(response);
+//        }
+//        [Authorize(Policy = "admin.categories.details")]
+//        // GET: Admin/Categories/Details/5
+//        public async Task<IActionResult> Details(CategorySingleQuery query)
+//        {
+//            if (query?.Id == null)
+//                return NotFound();
+//            Category category = await _mediator.Send(query);
+//            if (category == null)
+//            {
+//                return NotFound();
+//            }
 
-        // GET: Admin/Categories
-        public async Task<IActionResult> Index(CategoryPagedQuery query)
-        {
-            var response = await _mediator.Send(query);
-            return View(response);
-        }
+//            return View(category);
+//        }
+//        [Authorize(Policy = "admin.categories.create")]
+//        // GET: Admin/Categories/Create
+//        public  IActionResult Create()
+//        {
+//            ViewData["ParentId"] = new SelectList(await mediator.Send(new CategoryChooseQuery()), "Id", "Name");
+//            return View();
+//        }
 
-        // GET: Admin/Categories/Details/5
-        public async Task<IActionResult> Details(CategorySingleQuery query)
-        {
-            Category category = await _mediator.Send(query);
-            if (category == null)
-            {
-                return NotFound();
-            }
+//        // POST: Admin/Categories/Create
+//        [HttpPost]
+//        [ValidateAntiForgeryToken]
+//        [Authorize(Policy = "admin.categories.create")]
+//        public async Task<IActionResult> Create(CategoryCreateCommand command)
+//        {
+//            if (ModelState.IsValid)
+//            {
+//                await _mediator.Send(command);
+//                return RedirectToAction(nameof(Index));
+//            }
+//            ViewData["ParentId"] = new SelectList(await mediator.Send(new CategoryChooseQuery()), "Id", "Name", command.ParentId);
+//            return View(command);
+//        }
 
-            return View(category);
-        }
+//        // GET: Admin/Categories/Edit/5
+//        [Authorize(Policy = "admin.categories.edit")]
+//        public async Task<IActionResult> Edit(CategorySingleQuery query)
+//        {
+//            if (query?.Id == null)
+//                return NotFound();
+//            Category category = await _mediator.Send(query);
+//            if (category == null)
+//            {
+//                return NotFound();
+//            }
 
-        // GET: Admin/Categories/Create
-        public  IActionResult Create()
-        {
-            
-            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name");
-            return View();
-        }
+//            ViewData["ParentId"] = new SelectList(await mediator.Send(new CategoryChooseQuery()), "Id", "Name", category.ParentId);
+//            return View(query);
+//        }
 
-        // POST: Admin/Categories/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CategoryCreateCommand request)
-        {
-            int id = await _mediator.Send(request);
-            if (id > 0)
-                return RedirectToAction(nameof(Index));
-            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", request.Name);
-            return View(request);
-        }
+//        // POST: Admin/Categories/Edit/5      
+//        [HttpPost]
+//        [ValidateAntiForgeryToken]
+//        [Authorize(Policy = "admin.categories.edit")]
+//        public async Task<IActionResult> Edit([FromRoute] int id, CategoryEditCommand command)
+//        {
+//            if (id != command.Id)
+//                return NotFound();
+//            if (ModelState.IsValid)
+//            {
+//                await _mediator.Send(command);
+//                return RedirectToAction(nameof(Index));
+//            }
+//            ViewData["ParentId"] = new SelectList(await mediator.Send(new CategoryChooseQuery()), "Id", "Name", command.ParentId);
+//            return View(command);
+//        }
 
-        // GET: Admin/Categories/Edit/5
-        public async Task<IActionResult> Edit(CategorySingleQuery query)
-        {
-            Category category = await _mediator.Send(query);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            CategoryViewModel vm = new CategoryViewModel();
-            {
-                vm.Id = category.Id;
-                vm.Name = category.Name;
-                vm.Description = category.Description;
-            }
-            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", category.Name);
-            return View(category);
-        }
+//        [Authorize(Policy = "admin.categories.delete")]
+//        // GET: Admin/Categories/Delete/5
+//        public async Task<IActionResult> Delete(CategoryRemoveCommand command)
+//        {
+//            if (command?.Id == null)
+//                return NotFound();
 
-        // POST: Admin/Categories/Edit/5      
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(CategoryEditCommand request)
-        {
-            int id = await _mediator.Send(request);
-            if (id > 0)
-
-                return RedirectToAction(nameof(Index));
-            
-            ViewBag.Parent = new SelectList(_db.Categories, "Name", "Name", request.Name);
-            return View(request);
-        }
-
-        // GET: Admin/Categories/Delete/5
-        public async Task<IActionResult> Delete(CategoryRemoveCommand request)
-        {
-            var response = await _mediator.Send(request);
-            return Json(response);
-        }
-    }
-}
+//            var response = await _mediator.Send(command);
+//            if (response == null)
+//                return NotFound();
+//            return View(command);
+//        }
+//    }
+//}

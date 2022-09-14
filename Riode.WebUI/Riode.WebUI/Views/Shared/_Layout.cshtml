@@ -54,13 +54,22 @@
                         <span class="divider"></span>
                         <a asp-controller="home" asp-action="contact" class="contact d-lg-show"><i class="d-icon-map"></i>@LayoutResource.Contact</a>
                         <a href="#" class="help d-lg-show"><i class="d-icon-info"></i> @LayoutResource.NeedHelp</a>
-                        <a class="login-link" asp-controller="account" asp-action="SignIn" data-toggle="login-modal">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="login-link" asp-controller="account" asp-action="Profile" data-toggle="login-modal">
+                            <i class="d-icon-user"></i>@User.GetPrincipalName()
+                            </a>
+                        }
+                        else
+                        {
+                           <a class="login-link" asp-controller="account" asp-action="SignIn" data-toggle="login-modal">
                             <i class="d-icon-user"></i>@LayoutResource.SignIn
                         </a>
                         <span class="delimiter">/</span>
                         <a class="register-link ml-0"  asp-controller="account" asp-action="Register" data-toggle="login-modal">
                             <i></i>@LayoutResource.Register
-                          </a>
+                          </a>  
+                        }                       
                         <!-- End of Login -->
                     </div>
                 </div>

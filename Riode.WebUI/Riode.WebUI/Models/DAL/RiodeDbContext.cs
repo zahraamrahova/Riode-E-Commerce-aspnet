@@ -10,7 +10,39 @@ namespace Riode.WebUI.Models.DAL
         public RiodeDbContext(DbContextOptions<RiodeDbContext> options) : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<RiodeUser>(e =>
+            {
+                e.ToTable("Users", "Membership");
+            });
+            builder.Entity<RiodeRole>(e =>
+            {
+                e.ToTable("Roles", "Membership");
+            });
 
+            builder.Entity<RiodeUserRole>(e =>
+            {
+                e.ToTable("UserRoles", "Membership");
+            });
+            builder.Entity<RiodeUserClaim>(e =>
+            {
+                e.ToTable("UserClaims", "Membership");
+            });
+            builder.Entity<RiodeRoleClaim>(e =>
+            {
+                e.ToTable("RoleClaims", "Membership");
+            });
+            builder.Entity<RiodeUserLogin>(e =>
+            {
+                e.ToTable("UserLogins", "Membership");
+            });
+            builder.Entity<RiodeUserToken>(e =>
+            {
+                e.ToTable("UserTokens", "Membership");
+            });
+        }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
         public DbSet<ProductSize> ProductSizes { get; set; }

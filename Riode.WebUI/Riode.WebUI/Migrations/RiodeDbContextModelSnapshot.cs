@@ -255,7 +255,7 @@ namespace Riode.WebUI.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("Roles", "Membership");
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Membership.RiodeRoleClaim", b =>
@@ -279,7 +279,7 @@ namespace Riode.WebUI.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RoleClaims", "Membership");
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Membership.RiodeUser", b =>
@@ -355,7 +355,7 @@ namespace Riode.WebUI.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users", "Membership");
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Membership.RiodeUserClaim", b =>
@@ -379,7 +379,7 @@ namespace Riode.WebUI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("UserClaims", "Membership");
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Membership.RiodeUserLogin", b =>
@@ -400,7 +400,7 @@ namespace Riode.WebUI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("UserLogins", "Membership");
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Membership.RiodeUserRole", b =>
@@ -415,7 +415,7 @@ namespace Riode.WebUI.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("UserRoles", "Membership");
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Membership.RiodeUserToken", b =>
@@ -434,7 +434,7 @@ namespace Riode.WebUI.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("UserTokens", "Membership");
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Product", b =>

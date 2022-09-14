@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -33,7 +34,9 @@ namespace Riode.WebUI
             });
             builder.Services.AddRouting(cfg => cfg.LowercaseUrls = true);
             builder.Services.AddDbContext<RiodeDbContext>(options => 
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))).AddIdentity<RiodeUser, RiodeRole>().AddEntityFrameworkStores<RiodeDbContext>();
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))).AddIdentity<RiodeUser, RiodeRole>()
+            .AddEntityFrameworkStores<RiodeDbContext>()
+            .AddDefaultTokenProviders();
             builder.Services.Configure<IdentityOptions>(cfg =>
             {
                 cfg.Password.RequireDigit = false;
@@ -56,15 +59,49 @@ namespace Riode.WebUI
                 cfg.Cookie.Name = "Riode";
             });
             builder.Services.AddAuthentication();
-            builder.Services.AddAuthorization();
+            builder.Services.AddAuthorization(cfg =>
+            {
+                cfg.AddPolicy("admin.brands.index", p =>
+                {
+                     p.RequireAssertion(handler =>
+                    {
+                        return handler.User.HasClaim("admin.categories.index", "1");
+                    });
+                });
+                cfg.AddPolicy("admin.brands.details", p =>
+                {
+                    p.RequireAssertion(handler =>
+                    {
+                        return handler.User.HasClaim("admin.categories.index", "1");
+                    });
+                });
+                cfg.AddPolicy("admin.brands.create", p =>
+                {
+                    p.RequireAssertion(handler =>
+                    {
+                        return handler.User.HasClaim("admin.categories.index", "1");
+                    });
+                });
+                cfg.AddPolicy("admin.brands.edit", p =>
+                {
+                    p.RequireAssertion(handler =>
+                    {
+                        return handler.User.HasClaim("admin.categories.index", "1");
+                    });
+                });
+                cfg.AddPolicy("admin.brands.delete", p =>
+                {
+                    p.RequireAssertion(handler =>
+                    {
+                        return handler.User.HasClaim("admin.categories.index", "1");
+                    });
+                });
+            });
             builder.Services.AddScoped <UserManager<RiodeUser>> ();
             builder.Services.AddScoped<SignInManager<RiodeUser>>();
             builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            builder.Services.AddScoped<IClaimsTransformation, AppClaimProvider>();
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-            //builder.Services.AddMediatR(typeof(BrandSingleQuery).GetTypeInfo().Assembly);
-            //builder.Services.AddMediatR(typeof(BrandCreateCommand).GetTypeInfo().Assembly);
-            //builder.Services.AddMediatR(typeof(BrandEditCommand).GetTypeInfo().Assembly);
-            //builder.Services.AddMediatR(typeof(BrandRemoveCommand).GetTypeInfo().Assembly);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -114,25 +151,8 @@ namespace Riode.WebUI
                    name: "areas",
                    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
                 );
-
-                endpoints.MapControllerRoute(
-                    name: "default-signin",
-                    pattern: "signin.html",
-                    defaults: new
-                    {
-                        area = "",
-                        controller = "account",
-                        action= "signin"
-                    });
-                endpoints.MapControllerRoute(
-                    name: "default-register",
-                    pattern: "register.html",
-                    defaults: new
-                    {
-                        area = "",
-                        controller = "account",
-                        action = "register"
-                    });
+                            
+           
                 endpoints.MapControllerRoute(
                   name: "default-accessdenied",
                   pattern: "accessdenied.html",
