@@ -64,7 +64,8 @@
                                 <td class="operate-cell">
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning btn-outline-warning"><i class="fas fa-pencil-alt"></i></a> 
                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-inverse btn-outline-inverse"><i class="fas fa-eye"></i></a> 
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger btn-outline-danger"><i class="far fa-trash-alt"></i></a>
+                                      <a  onclick="removeEntity(@item.Id, '@item.Name')"
+                                       class="btn btn-sm btn-danger btn-outline-danger"><i class="far fa-trash-alt"></i></a>
                                 </td>
                             </tr>
 
@@ -80,7 +81,7 @@
                                 <td class="operate-cell">
                                     <a asp-action="Edit" asp-route-id="@child.Id" class="btn btn-sm btn-warning btn-outline-warning"><i class="fas fa-pencil-alt"></i></a> 
                                     <a asp-action="Details" asp-route-id="@child.Id" class="btn btn-sm btn-inverse btn-outline-inverse"><i class="fas fa-eye"></i></a> 
-                                       <a  onclick="removeEntity(@item.Id, '@item.Name')"
+                                       <a  onclick="removeEntity(@child.Id, '@child.Name')"
                                        class="btn btn-sm btn-danger btn-outline-danger"><i class="far fa-trash-alt"></i></a>
                                 </td>
                             </tr>
@@ -113,7 +114,7 @@
             function removeEntity(id,name){
                                               swal({
                                               title: "Are you sure?",
-                                              text: `You will not be able to recover this '${name}' brand!`,
+                                              text: `You will not be able to recover this '${name}' Category!`,
                                               icon: "warning",        
                                               confirmButtonClass: "btn-danger",
                                               buttons: ["No", "Yes"]                                     
@@ -131,7 +132,7 @@
                                                         success: function(response){                                               
                                                             console.log(response);
                                                             if(response.error==false){       
-                                        toastr.success(response.message, "Brand Deleted", {
+                                        toastr.success(response.message, "Category Deleted", {
                                                         timeOut: 1000,
                                                         fadeOut: 1000,
                                                          onHidden: function () {

@@ -24,7 +24,7 @@ namespace Riode.WebUI.AppCode.Application.FaqModule
             {
                 if (value > 0)
                     pageIndex = value;
-                pageIndex = 1;
+                else { pageIndex = 1; }
             }
         }
         public int PageSize
@@ -40,7 +40,7 @@ namespace Riode.WebUI.AppCode.Application.FaqModule
             {
                 if (value > 0)
                     pageSize = value;
-                pageSize = 10;
+                else { pageSize = 10; }
             }
         }
 

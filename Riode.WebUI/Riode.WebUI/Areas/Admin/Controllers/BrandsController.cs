@@ -26,13 +26,13 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Brands
-        [Authorize(Policy = "admin.brands.index")]
+        //[Authorize(Policy = "admin.brands.index")]
         public async Task<IActionResult> Index(BrandPagedQuery query)
         {
             var response = await _mediator.Send(query);
             return View(response);
         }
-        [Authorize(Policy = "admin.brands.details")]
+        //[Authorize(Policy = "admin.brands.details")]
         // GET: Admin/Brands/Details/5
         public async Task<IActionResult> Details(BrandSingleQuery query)
         {
@@ -44,13 +44,13 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
             return View(brand);
         }
-        [Authorize(Policy = "admin.brands.create")]
+        //[Authorize(Policy = "admin.brands.create")]
         // GET: Admin/Brands/Create
         public IActionResult Create()
         {
             return View();
         }
-        [Authorize(Policy = "admin.brands.create")]
+        //[Authorize(Policy = "admin.brands.create")]
         // POST: Admin/Brands/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,7 +62,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             return View(request);
         }
-        [Authorize(Policy = "admin.brands.edit")]
+        //[Authorize(Policy = "admin.brands.edit")]
         // GET: Admin/Brands/Edit/5
         public async Task<IActionResult> Edit(BrandSingleQuery query)
         {
@@ -84,7 +84,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Brands/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "admin.brands.edit")]
+        //[Authorize(Policy = "admin.brands.edit")]
         public async Task<IActionResult> Edit(BrandEditCommand request)
         {
              int id = await _mediator.Send(request);
@@ -97,7 +97,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
         [Authorize(Roles = "SuperAdmin, Operator")]
         [HttpPost]
-        [Authorize(Policy = "admin.brands.delete")]
+        //[Authorize(Policy = "admin.brands.delete")]
         public async Task<IActionResult> Delete(BrandRemoveCommand request)
         {
             var response = await _mediator.Send(request);

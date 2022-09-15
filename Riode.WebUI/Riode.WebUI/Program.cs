@@ -153,15 +153,15 @@ namespace Riode.WebUI
                 );
                             
            
-                endpoints.MapControllerRoute(
-                  name: "default-accessdenied",
-                  pattern: "accessdenied.html",
-                  defaults: new
-                  {
-                      area = "",
-                      controller = "account",
-                      action = "accessdenied"
-                  });
+                //endpoints.MapControllerRoute(
+                //  name: "default-accessdenied",
+                //  pattern: "accessdenied.html",
+                //  defaults: new
+                //  {
+                //      area = "",
+                //      controller = "account",
+                //      action = "accessdenied"
+                //  });
 
                 endpoints.MapControllerRoute("default-with-lang", "{lang}/{controller=Home}/{action=Index}/{id?}", constraints: new
                 {

@@ -20,9 +20,12 @@ namespace Riode.WebUI.AppCode.Application.SpecificationModule
             }
             set
             {
-                if (value>0)
+                if (value > 0)
                     pageIndex = value;
-                pageIndex= 1;
+                else
+                {
+                    pageIndex = 1;
+                }
             }
         }
         public int PageSize
@@ -38,7 +41,10 @@ namespace Riode.WebUI.AppCode.Application.SpecificationModule
             {
                 if (value > 0)
                     pageSize = value;
-                pageSize = 10;
+                else
+                {
+                    pageSize = 10;
+                }
             }
         }
 
@@ -52,7 +58,7 @@ namespace Riode.WebUI.AppCode.Application.SpecificationModule
             public async Task<PagedViewModel<Specification>> Handle(SpecificationPagedQuery request, CancellationToken cancellationToken)
             {
                 var query = _db.Specifications.Where(b => b.DeletedByUserId == null);
-                var pagedModel = new PagedViewModel<Specification>(query, request.pageIndex, request.pageSize);
+                var pagedModel = new PagedViewModel<Specification>(query, request.PageIndex, request.PageSize);
 
                 return pagedModel;
             }

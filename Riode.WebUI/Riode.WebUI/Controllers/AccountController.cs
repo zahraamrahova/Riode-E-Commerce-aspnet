@@ -149,6 +149,11 @@ namespace Riode.WebUI.Controllers
           await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+        [Route("/accessdenied.html")]
+        public async Task<IActionResult> AccessDenied()
+        {
+            return View();
+        }
 
     }
 }
