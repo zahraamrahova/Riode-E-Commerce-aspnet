@@ -52,7 +52,7 @@ namespace Riode.WebUI.AppCode.Application.SpecificationModule
             public async Task<PagedViewModel<Specification>> Handle(SpecificationPagedQuery request, CancellationToken cancellationToken)
             {
                 var query = _db.Specifications.Where(b => b.DeletedByUserId == null);
-                var pagedModel = new PagedViewModel<Specification>(query, request.PageIndex, request.PageSize);
+                var pagedModel = new PagedViewModel<Specification>(query, request.pageIndex, request.pageSize);
 
                 return pagedModel;
             }

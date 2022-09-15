@@ -11,7 +11,6 @@ namespace Riode.WebUI.AppCode.Application.CategoryModule
     {
       
         public int? ParentId { get; set; }
-        public virtual CategoryViewModel Parent { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }

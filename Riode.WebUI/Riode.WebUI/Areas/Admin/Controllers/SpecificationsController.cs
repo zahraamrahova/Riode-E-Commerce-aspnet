@@ -29,6 +29,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // GET: Admin/Specifications
         public async Task<IActionResult> Index(SpecificationPagedQuery query)
         {
+            
             var response = await _mediator.Send(query);
               return View(response);
                         
