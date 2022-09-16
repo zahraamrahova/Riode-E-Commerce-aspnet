@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.Models.DAL;
 using System.Security.Claims;
 
@@ -38,6 +39,26 @@ namespace Riode.WebUI.AppCode.Providers
                 foreach (var roleName in currentRoles)
                 {
                     currentIdendity.AddClaim(new Claim(ClaimTypes.Role, roleName));
+                }
+                #endregion
+
+                #region Reload Claims for current user
+                var currentClaims = currentIdendity.Claims.Where(c => Program.principals.Contains(c.Type)).ToArray();
+               foreach (var claim in currentClaims)
+                {
+                    currentIdendity.RemoveClaim(claim);
+                }
+                var currentPolicies = await (from uc in _db.UserClaims
+                                             where uc.UserId == userId && uc.ClaimValue == "1"
+                                             select uc.ClaimType)
+                                             .Union(from rc in _db.RoleClaims
+                                                    join ur in _db.UserRoles on rc.RoleId equals ur.RoleId
+                                                    where ur.UserId == userId && rc.ClaimValue == "1"
+                                                    select rc.ClaimType).ToListAsync();
+
+                foreach (var policy in currentPolicies)
+                {
+                    currentIdendity.AddClaim(new Claim(policy, "1"));
                 }
                 #endregion
             }

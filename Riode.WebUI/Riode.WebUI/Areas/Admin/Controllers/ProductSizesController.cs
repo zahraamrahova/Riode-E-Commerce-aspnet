@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductSizes
+        [Authorize(Policy = "admin.productsizes.index")]
         public async Task<IActionResult> Index(ProductSizePagedQuery query)
         {
             var response = await _mediator.Send(query);
@@ -32,6 +34,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductSizes/Details/5
+        [Authorize(Policy = "admin.productsizes.details")]
         public async Task<IActionResult> Details(ProductSizeSingleQuery query)
         {
             ProductSize productSize = await _mediator.Send(query);
@@ -44,6 +47,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductSizes/Create
+        [Authorize(Policy = "admin.productsizes.create")]
         public IActionResult Create()
         {
             return View();
@@ -52,6 +56,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/ProductSizes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.productsizes.create")]
         public async Task<IActionResult> Create(ProductSizeCreateCommand request)
         {
             int id = await _mediator.Send(request);
@@ -62,6 +67,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductSizes/Edit/5
+        [Authorize(Policy = "admin.productsizes.edit")]
         public async Task<IActionResult> Edit(ProductSizeSingleQuery query)
         {
             ProductSize productSize = await _mediator.Send(query);
@@ -82,6 +88,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/ProductSizes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.productsizes.edit")]
         public async Task<IActionResult> Edit(ProductSizeEditCommand request)
         {
             int id = await _mediator.Send(request);
@@ -92,6 +99,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductSizes/Delete/5
+        [Authorize(Policy = "admin.productsizes.delete")]
         public async Task<IActionResult> Delete(ProductSizeRemoveCommand request)
         {
             var response = await _mediator.Send(request);

@@ -17,10 +17,9 @@ namespace Riode.WebUI.AppCode.Extensions
             return principal.Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email))?.Value;
         }
 
-        static public bool HasAccess(this ClaimsPrincipal principal, string policyName)
+        static public bool HasAccess(this ClaimsPrincipal principal, string policyname)
         {
-            return principal.IsInRole("SuperAdmin")
-                || principal.HasClaim(c => c.Type.Equals(policyName) && c.Value.Equals("1"));
+            return principal.IsInRole("SuperAdmin") || principal.HasClaim(c => c.Type.Equals(policyname) && c.Value.Equals("1"));
         }
 
         static public int GetCurrentUserId(this ClaimsPrincipal principal)
@@ -29,5 +28,6 @@ namespace Riode.WebUI.AppCode.Extensions
 
             return userId;
         }
+
     }
 }

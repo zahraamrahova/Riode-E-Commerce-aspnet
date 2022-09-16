@@ -2,9 +2,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode;
 using Riode.WebUI.AppCode.Application.BrandModule;
 using Riode.WebUI.AppCode.Application.SpecificationModule;
 using Riode.WebUI.AppCode.Midlewares;
@@ -17,9 +19,28 @@ namespace Riode.WebUI
 {
     public class Program
     {
+
+        static internal string[] principals = null;
         public static void Main(string[] args)
         {
+
+            var types=  typeof(Program).Assembly.GetTypes();
+            principals = types.Where(t => typeof(ControllerBase).IsAssignableFrom(t) && t.IsDefined(typeof(AuthorizeAttribute), true))
+                   .SelectMany(t => t.GetCustomAttributes<AuthorizeAttribute>())
+                   .Union(types
+                   .Where(t => typeof(ControllerBase).IsAssignableFrom(t))
+                   .SelectMany(type => type.GetMethods())
+                   .Where(method => method.IsPublic
+                       && !method.IsDefined(typeof(NonActionAttribute))
+                       && method.IsDefined(typeof(AuthorizeAttribute)))
+                   .SelectMany(t => t.GetCustomAttributes<AuthorizeAttribute>()))
+                   .Where(a => !string.IsNullOrWhiteSpace(a.Policy))
+                   .SelectMany(a => a.Policy.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                   .Distinct()
+                   .ToArray();
             var builder = WebApplication.CreateBuilder(args);
+
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews(x =>
@@ -60,45 +81,24 @@ namespace Riode.WebUI
             });
             builder.Services.AddAuthentication();
             builder.Services.AddAuthorization(cfg =>
+
             {
-                cfg.AddPolicy("admin.brands.index", p =>
+
+                foreach (var policyName in principals)
                 {
-                     p.RequireAssertion(handler =>
+                    cfg.AddPolicy(policyName, p =>
                     {
-                        return handler.User.HasClaim("admin.categories.index", "1");
+                        p.RequireAssertion(handler =>
+                        {
+                            return handler.User.IsInRole("SuperAdmin") 
+                            || handler.User.HasClaim(policyName, "1");
+                        });
                     });
-                });
-                cfg.AddPolicy("admin.brands.details", p =>
-                {
-                    p.RequireAssertion(handler =>
-                    {
-                        return handler.User.HasClaim("admin.categories.index", "1");
-                    });
-                });
-                cfg.AddPolicy("admin.brands.create", p =>
-                {
-                    p.RequireAssertion(handler =>
-                    {
-                        return handler.User.HasClaim("admin.categories.index", "1");
-                    });
-                });
-                cfg.AddPolicy("admin.brands.edit", p =>
-                {
-                    p.RequireAssertion(handler =>
-                    {
-                        return handler.User.HasClaim("admin.categories.index", "1");
-                    });
-                });
-                cfg.AddPolicy("admin.brands.delete", p =>
-                {
-                    p.RequireAssertion(handler =>
-                    {
-                        return handler.User.HasClaim("admin.categories.index", "1");
-                    });
-                });
+                }              
             });
             builder.Services.AddScoped <UserManager<RiodeUser>> ();
             builder.Services.AddScoped<SignInManager<RiodeUser>>();
+            builder.Services.AddScoped<RoleManager<RiodeRole>>();
             builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             builder.Services.AddScoped<IClaimsTransformation, AppClaimProvider>();
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
@@ -111,7 +111,7 @@ namespace Riode.WebUI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.SeedMembership();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
@@ -173,6 +173,7 @@ namespace Riode.WebUI
 
 
             app.Run();
+
         }
     }
 }

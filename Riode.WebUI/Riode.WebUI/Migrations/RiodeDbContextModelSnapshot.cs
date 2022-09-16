@@ -256,6 +256,29 @@ namespace Riode.WebUI.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", "Membership");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "87e6cf82-a5de-413a-8ae7-c8a0bf93e98b",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "fb98b010-e90c-4e74-8aa8-b30e444066d8",
+                            Name = "Operator",
+                            NormalizedName = "OPERATOR"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "198ea085-27b0-463c-aa15-40beb8f9848d",
+                            Name = "Reporter",
+                            NormalizedName = "REPORTER"
+                        });
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Membership.RiodeRoleClaim", b =>

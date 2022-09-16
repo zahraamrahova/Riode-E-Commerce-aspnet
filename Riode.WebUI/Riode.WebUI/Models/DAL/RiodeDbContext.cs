@@ -20,6 +20,26 @@ namespace Riode.WebUI.Models.DAL
             builder.Entity<RiodeRole>(e =>
             {
                 e.ToTable("Roles", "Membership");
+                e.HasData(new List<RiodeRole>
+                {
+                     new RiodeRole {
+                     Id= 1,
+                     Name = "SuperAdmin",
+                     NormalizedName = "SUPERADMIN"
+                },
+                     
+                     new RiodeRole {
+                         Id= 2,
+                     Name = "Operator",
+                     NormalizedName = "OPERATOR"
+                },
+                     
+                     new RiodeRole {
+                         Id= 3,
+                     Name = "Reporter",
+                     NormalizedName = "REPORTER"
+                } 
+                });         
             });
 
             builder.Entity<RiodeUserRole>(e =>

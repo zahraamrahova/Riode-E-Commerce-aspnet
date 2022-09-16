@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Specifications
+        [Authorize(Policy = "admin.specifications.index")]
         public async Task<IActionResult> Index(SpecificationPagedQuery query)
         {
             
@@ -36,6 +38,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Specifications/Details/5
+        [Authorize(Policy = "admin.specifications.details")]
         public async Task<IActionResult> Details(SpecificationSingleQuery query)
         {
             var result = await _mediator.Send(query);
@@ -46,7 +49,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
             return View(result);
         }
-
+        [Authorize(Policy = "admin.specifications.create")]
         // GET: Admin/Specifications/Create
         public IActionResult Create()
         {
@@ -56,6 +59,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Specifications/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.specifications.create")]
         public async Task<IActionResult> Create(SpecificationCreateCommand request)
         {
             int id = await _mediator.Send(request);
@@ -66,6 +70,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Specifications/Edit/5
+        [Authorize(Policy = "admin.specifications.edit")]
         public async Task<IActionResult> Edit(SpecificationSingleQuery query)
         {
             var result = await _mediator.Send(query);
@@ -86,6 +91,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Specifications/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.specifications.edit")]
         public async Task<IActionResult> Edit(SpecificationEditCommand request)
         {
              int id = await _mediator.Send(request);
@@ -96,8 +102,9 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
 
         }
-
-       [HttpPost]
+        // POST: Admin/Specifications/Delete/5
+        [HttpPost]
+        [Authorize(Policy = "admin.specifications.delete")]
         public async Task<IActionResult> Delete(SpecificationRemoveCommand request)
         {
             var response = await _mediator.Send(request);

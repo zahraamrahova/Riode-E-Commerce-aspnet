@@ -42,7 +42,10 @@
                                 Name
             </th>           
             <th class="operate-cell">
-                                   <a class="btn btn-sm btn-success btn-outline-success" asp-action="Create"><i class="fas fa-plus"></i></a>
+                                @if (User.HasAccess("admin.specifications.create"))
+                                {
+                                <a class="btn btn-sm btn-success btn-outline-success" asp-action="Create"><i class="fas fa-plus"></i></a>
+                                }
             </th>
         </tr>
     </thead>
@@ -54,17 +57,24 @@
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td class="operate-cell">
+                                     @if (User.HasAccess("admin.specifications.edit"))
+                                    {
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning btn-outline-warning"><i class="fas fa-pencil-alt"></i></a> 
+                                    }
+                                    @if (User.HasAccess("admin.specifications.details"))
+                                    {
                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-inverse btn-outline-inverse"><i class="fas fa-eye"></i></a> 
+                                    }
+                                    @if (User.HasAccess("admin.specifications.delete"))
+                                    {
                                     <a  onclick="removeEntity(@item.Id, '@item.Name')"
                             class="btn btn-sm btn-danger btn-outline-danger"><i class="far fa-trash-alt"></i></a>
+                                    }
                                 </td>
                             </tr>
                         }
     </tbody>
                                                     </table>
-
-
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-xs-12 col-sm-12 col-md-5">

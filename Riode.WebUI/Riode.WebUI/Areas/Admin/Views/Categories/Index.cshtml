@@ -47,7 +47,10 @@
                                 Description
                                </th>
                                 <th class="operate-cell">
-                                   <a class="btn btn-sm btn-success btn-outline-success" asp-action="Create"><i class="fas fa-plus"></i></a>
+
+                                    @if(User.HasAccess("admin.categories.create")){
+                                           <a class="btn btn-sm btn-success btn-outline-success" asp-action="Create"><i class="fas fa-plus"></i></a>
+                                    }                                
                                 </th>
                                </tr>
                                </thead>
@@ -62,10 +65,16 @@
                                     @item.Description
                                 </td>
                                 <td class="operate-cell">
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning btn-outline-warning"><i class="fas fa-pencil-alt"></i></a> 
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-inverse btn-outline-inverse"><i class="fas fa-eye"></i></a> 
-                                      <a  onclick="removeEntity(@item.Id, '@item.Name')"
+                                      @if (User.HasAccess("admin.categories.edit")){
+                                          <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning btn-outline-warning"><i class="fas fa-pencil-alt"></i></a>
+                                    }
+                                      @if (User.HasAccess("admin.categories.details")){
+                                          <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-inverse btn-outline-inverse"><i class="fas fa-eye"></i></a> 
+                                    }
+                                      @if (User.HasAccess("admin.categories.delete")){
+                                            <a  onclick="removeEntity(@item.Id, '@item.Name')"
                                        class="btn btn-sm btn-danger btn-outline-danger"><i class="far fa-trash-alt"></i></a>
+                                    }                                                                                        
                                 </td>
                             </tr>
 
@@ -79,10 +88,17 @@
                                     @Html.DisplayFor(modelItem => @child.Description)
                                 </td>
                                 <td class="operate-cell">
+                                    @if (User.HasAccess("admin.categories.edit")){
                                     <a asp-action="Edit" asp-route-id="@child.Id" class="btn btn-sm btn-warning btn-outline-warning"><i class="fas fa-pencil-alt"></i></a> 
+                                    }  
+                                    @if (User.HasAccess("admin.categories.details")){
                                     <a asp-action="Details" asp-route-id="@child.Id" class="btn btn-sm btn-inverse btn-outline-inverse"><i class="fas fa-eye"></i></a> 
-                                       <a  onclick="removeEntity(@child.Id, '@child.Name')"
+                                    }  
+                                    @if (User.HasAccess("admin.categories.delete")){
+                                                     <a  onclick="removeEntity(@child.Id, '@child.Name')"
                                        class="btn btn-sm btn-danger btn-outline-danger"><i class="far fa-trash-alt"></i></a>
+                                    }  
+                          
                                 </td>
                             </tr>
                                 

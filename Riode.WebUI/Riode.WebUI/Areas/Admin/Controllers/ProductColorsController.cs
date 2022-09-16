@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductColors
+        [Authorize(Policy = "admin.productcolors.index")]
         public async Task<IActionResult> Index(ProductColorPagedQuery query)
         {
             var response = await _mediator.Send(query);
@@ -32,6 +34,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductColors/Details/5
+        [Authorize(Policy = "admin.productcolors.Details")]
         public async Task<IActionResult> Details(ProductColorSingleQuery query)
         {
             ProductColor productColor = await _mediator.Send(query);
@@ -44,6 +47,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductColors/Create
+        [Authorize(Policy = "admin.productcolors.Create")]
         public IActionResult Create()
         {
             return View();
@@ -52,6 +56,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/ProductColors/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.productcolors.Create")]
         public async Task<IActionResult> Create(ProductColorCreateCommand request)
         {
             int id = await _mediator.Send(request);
@@ -62,6 +67,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductColors/Edit/5
+        [Authorize(Policy = "admin.productcolors.edit")]
         public async Task<IActionResult> Edit(ProductColorSingleQuery query)
         {
             ProductColor productColor = await _mediator.Send(query);
@@ -82,6 +88,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/ProductColors/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.productcolors.edit")]
         public async Task<IActionResult> Edit(ProductColorEditCommand request)
         {
             int id = await _mediator.Send(request);
@@ -93,6 +100,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductColors/Delete/5
+        [Authorize(Policy = "admin.productcolors.delete")]
         public async Task<IActionResult> Delete(ProductColorRemoveCommand request)
         {
             var response = await _mediator.Send(request);

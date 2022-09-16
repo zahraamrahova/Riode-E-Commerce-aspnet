@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Faqs
+        [Authorize(Policy = "admin.faqs.index")]
         public async Task<IActionResult> Index(FaqPagedQuery query)
         {
             var response = await _mediator.Send(query);
@@ -32,6 +34,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Faqs/Details/5
+        [Authorize(Policy = "admin.faqs.details")]
         public async Task<IActionResult> Details(FaqSingleQuery query)
         {
             Faq faq = await _mediator.Send(query);
@@ -44,6 +47,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Faqs/Create
+        [Authorize(Policy = "admin.faqs.create")]
         public IActionResult Create()
         {
             return View();
@@ -52,6 +56,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Faqs/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.faqs.create")]
         public async Task<IActionResult> Create(FaqCreateCommand request)
         {
             int id = await _mediator.Send(request);
@@ -62,6 +67,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Faqs/Edit/5
+        [Authorize(Policy = "admin.faqs.edit")]
         public async Task<IActionResult> Edit(FaqSingleQuery query)
         {
             Faq faq = await _mediator.Send(query);
@@ -81,6 +87,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Faqs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.faqs.edit")]
         public async Task<IActionResult> Edit(FaqEditCommand request)
         {
             int id = await _mediator.Send(request);
@@ -91,6 +98,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Faqs/Delete/5
+        [Authorize(Policy = "admin.faqs.delete")]
         public async Task<IActionResult> Delete(FaqRemoveCommand request)
         {
             var response = await _mediator.Send(request);

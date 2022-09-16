@@ -449,36 +449,61 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li >
+                                @if (User.HasAccess("admin.productsizes.index"))
+                                {
+                                       <li >
                                         <a asp-controller="ProductSizes" asp-action="Index">
                                             <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
                                             <span class="pcoded-mtext">@Sidebar.Sizes</span>
                                         </a>
                                     </li>
+                                }
+                                 @if (User.HasAccess("admin.productcolors.index"))
+                                {
                                        <li >
                                         <a asp-controller="ProductColors" asp-action="Index">
                                             <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
                                             <span class="pcoded-mtext">@Sidebar.Colors</span>
                                         </a>
                                     </li>
+                                }
+                                 @if (User.HasAccess("admin.brands.index"))
+                                {
+                                    
                                        <li >
                                         <a asp-controller="Brands" asp-action="Index">
                                             <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
                                             <span class="pcoded-mtext">@Sidebar.Brands</span>
                                         </a>
                                     </li>
-                                      <li >
+                                }
+                                 @if (User.HasAccess("admin.categories.index"))
+                                {
+                                     <li >
                                         <a asp-controller="Categories" asp-action="Index">
                                             <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
                                             <span class="pcoded-mtext">@Sidebar.Categories</span>
                                         </a>
                                     </li>
+                                }
+                                 @if (User.HasAccess("admin.specifications.index"))
+                                {
                                     <li >
                                         <a asp-controller="Specifications" asp-action="Index">
                                             <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
                                             <span class="pcoded-mtext">@Sidebar.Specifications</span>
                                         </a>
                                     </li>
+                                }            
+                                  @if (User.HasAccess("admin.faqs.index"))
+                                {
+                                    <li >
+                                        <a asp-controller="Specifications" asp-action="Index">
+                                            <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
+                                            <span class="pcoded-mtext">@Sidebar.Faqs</span>
+                                        </a>
+                                    </li>
+                                } 
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
                                         <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>

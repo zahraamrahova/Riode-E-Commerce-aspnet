@@ -24,15 +24,17 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             _db = db;
             _mediator = mediator;
         }
-        //[Authorize(Policy = "admin.categories.index")]
+
         // GET: Admin/Categories
+        [Authorize(Policy = "admin.categories.index")]
         public async Task<IActionResult> Index(CategoryPagedQuery query)
         {
             var response = await _mediator.Send(query);
             return View(response);
         }
-        //[Authorize(Policy = "admin.categories.details")]
+
         // GET: Admin/Categories/Details/5
+        [Authorize(Policy = "admin.categories.details")]
         public async Task<IActionResult> Details(CategorySingleQuery query)
         {
             if (query?.Id == null)
@@ -45,8 +47,9 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
             return View(category);
         }
-        //[Authorize(Policy = "admin.categories.create")]
+
         // GET: Admin/Categories/Create
+        [Authorize(Policy = "admin.categories.create")]
         public async Task<IActionResult> Create()
         {
             ViewBag.ParentId = new SelectList(await _mediator.Send(new CategoryChooseQuery()), "Id", "Name");
@@ -56,7 +59,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Categories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Policy = "admin.categories.create")]
+        [Authorize(Policy = "admin.categories.create")]
         public async Task<IActionResult> Create(CategoryCreateCommand command)
         {
             if (ModelState.IsValid)
@@ -69,7 +72,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // GET: Admin/Categories/Edit/5
-        //[Authorize(Policy = "admin.categories.edit")]
+        [Authorize(Policy = "admin.categories.edit")]
         public async Task<IActionResult> Edit(CategorySingleQuery query)
         {
             if (query?.Id == null)
@@ -87,7 +90,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Categories/Edit/5      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Policy = "admin.categories.edit")]
+        [Authorize(Policy = "admin.categories.edit")]
         public async Task<IActionResult> Edit([FromRoute] int id, CategoryEditCommand command)
         {
             if (id != command.Id)
@@ -101,8 +104,9 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(command);
         }
 
-        //[Authorize(Policy = "admin.categories.delete")]
+
         // GET: Admin/Categories/Delete/5
+        [Authorize(Policy = "admin.categories.delete")]
         public async Task<IActionResult> Delete(CategoryRemoveCommand command)
         {
             if (command?.Id == null)
