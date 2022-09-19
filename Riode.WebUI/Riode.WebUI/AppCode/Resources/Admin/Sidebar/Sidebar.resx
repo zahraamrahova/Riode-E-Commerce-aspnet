@@ -135,4 +135,7 @@
   <data name="Specifications" xml:space="preserve">
     <value>Göstəricilər</value>
   </data>
+  <data name="Users" xml:space="preserve">
+    <value>İstiadəçilər</value>
+  </data>
 </root>

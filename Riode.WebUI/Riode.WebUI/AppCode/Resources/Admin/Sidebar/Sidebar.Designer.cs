@@ -113,5 +113,14 @@ namespace Resources {
                 return ResourceManager.GetString("Specifications", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to İstiadəçilər.
+        /// </summary>
+        public static string Users {
+            get {
+                return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
     }
 }

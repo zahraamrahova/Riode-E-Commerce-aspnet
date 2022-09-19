@@ -135,4 +135,7 @@
   <data name="Specifications" xml:space="preserve">
     <value>Specifications</value>
   </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
 </root>
