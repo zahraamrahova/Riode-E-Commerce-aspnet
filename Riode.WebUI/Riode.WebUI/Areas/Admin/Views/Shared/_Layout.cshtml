@@ -107,7 +107,13 @@
             border-color: #01a9ac;
             color:#ffffff;
         }
-       
+        th.table-row-select
+        td.table-row-select {
+            width:50px;
+            min-width:50px;
+            max-width:50px;
+            text-align:center;
+        }
 
     </style>
     @RenderSection("addcss", required:false)
@@ -1961,7 +1967,7 @@
     <script src="~/assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
     <script src="~/lib/toastr.js/toastr.min.js"></script>
     <!-- Custom js -->
-    <script type="text/javascript" src="~/admin/assets/js/script.js"></script>
+    <script type="text/javascript" src="~/admin/assets/js/ajaxSetup.toastr.js"></script>
     @RenderSection("addjs", required:false)
 </body>
 

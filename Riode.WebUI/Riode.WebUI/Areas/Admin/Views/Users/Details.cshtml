@@ -80,7 +80,7 @@
                                                                            <table class="table table-striped">
                                                                                <thead>
                                                                                    <tr>
-                                                                                       <th style="max-width:100px"></th>
+                                                                                       <th class="table-row-select"  ></th>
                                                                                           <th>Name</th>
                                                                                    </tr>
                                                                                </thead>
@@ -88,9 +88,9 @@
                                             @foreach(Tuple<int,string,bool> ?item in ViewBag.Roles)
                                             {
                                                                                      <tr>
-                                                                                       <th>
-                                                                                    <input type="checkbox" @(item.Item3?"checked": "") data-role-id= "@item.Item1" data-role-name= "@item.Item2">
-                                                                                       </th>
+                                                                                       <td class="table-row-select" >
+                                                                                    <input type="checkbox" @(item.Item3?"checked": "") data-role-id= "@item.Item1" data-role-name= "@item.Item2" data-user-id="@Model.Id">
+                                                                                       </td>
                                                                                           <th>@item.Item2</th>
                                                                                    </tr>
                                             }
@@ -101,7 +101,7 @@
                                                                                <table class="table table-striped">
                                                                                <thead>
                                                                                    <tr>
-                                                                                       <th style="max-width:100px"></th>
+                                                                                       <th class="table-row-select"></th>
                                                                                           <th>Name</th>
                                                                                    </tr>
                                                                                </thead>
@@ -109,9 +109,9 @@
                                             @foreach(Tuple<string,bool> ?item in ViewBag.Principals)
                                             {
                                                                                      <tr>
-                                                                                       <th>
-                                                                                    <input type="checkbox" @(item.Item2?"checked": "")  data-principal-name= "@item.Item1">
-                                                                                       </th>
+                                                                                       <td class="table-row-select" >
+                                                                                    <input type="checkbox" @(item.Item2?"checked": "")  data-principal-name= "@item.Item1" data-user-id="@Model.Id">
+                                                                                       </td>
                                                                                           <th>@item.Item1</th>
                                                                                    </tr>
                                             }
@@ -138,4 +138,63 @@
 }
     @section addjs{
         <script src="~/lib/tab-control/tab-control.js"></script>
+ @*       <script type="text/javascript" src="~/admin/assets/js/script.js"></script>  *@
+
+        <script>
+            $(document).ready(function(){
+                $('input[type="checkbox"][data-role-id]').change(function (e){
+                    let obj= $(e.currentTarget).data();
+                    obj.selected= $(e.currentTarget).is(':checked');
+                    console.log(obj);
+
+                    $.ajax({
+                       url: '@Url.Action("SetRole")',
+                       method: 'POST',
+                       data: obj,
+                       contentType: 'application/x-www-form-urlencoded',
+                       dataType: 'json',
+                       success: function(response){
+                           if(response.error==false){
+                               toastr.success(response.message, 'Successfull!');
+                               return;
+                           }
+                           console.log(response);
+                              toastr.warning(response.message, 'Error!');
+                              $(e.currentTarget).prop('checked', !obj.selected);
+                       },
+                       error: function(response){
+                           console.warn(response);
+                       }
+
+                    });
+                });
+
+                  $('input[type="checkbox"][data-principal-name]').change(function (e){
+                          let obj= $(e.currentTarget).data();
+                    obj.selected= $(e.currentTarget).is(':checked');
+
+                        console.log(obj);
+                         $.ajax({
+                       url: '@Url.Action("SetPrincipal")',
+                       method: 'POST',
+                       data: obj,
+                       contentType: 'application/x-www-form-urlencoded',
+                       dataType: 'json',
+                        success: function(response){
+                           if(response.error==false){
+                               toastr.success(response.message, 'Successfull!');
+                               return;
+                           }
+                           console.log(response);
+                              toastr.warning(response.message, 'Error!');
+                              $(e.currentTarget).prop('checked', !obj.selected);
+                       },
+                       error: function(response){
+                           console.warn(response);
+                       }
+                    });
+                  
+                  });
+            });
+        </script>
     }                            

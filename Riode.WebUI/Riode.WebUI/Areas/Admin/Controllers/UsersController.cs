@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Extensions;
 using Riode.WebUI.Models.DAL;
+using Riode.WebUI.Models.Entities.Membership;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
 {
@@ -42,5 +44,175 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                                         select Tuple.Create(p, lj != null)).ToList();
             return View(user);
         }
-    }
+        [HttpPost]
+        [Route("/user-set-role")]
+        [Authorize(Policy = "admin.users.setrole")]
+        public async Task<IActionResult> SetRole(int userId, int roleId, bool selected)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);           
+            if (user == null)
+            {
+                return Json(new
+                {
+                    error=true,
+                    message="Invalid request"
+                });
+            }
+            if (userId == User.GetCurrentUserId())
+            {
+                return Json(new
+                {
+                    error = true,
+                    message = "User cannot self-authorize!"
+                });
+
+            }
+            var role = await _db.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
+            if (role == null)
+            {
+                return Json(new
+                {
+                    error = true,
+                    message = "Invalid request"
+                });
+            }
+
+            if (selected)
+            {
+                if(await _db.UserRoles.AnyAsync(ur=> ur.UserId == userId && ur.RoleId ==roleId))
+                {
+                    return Json (new
+                    {
+                        error = true,
+                        message = $"'{user.Name} {user.Surname}' user has '{role.Name}'!"
+                    });
+                }
+                else
+                {
+                    _db.UserRoles.Add(new RiodeUserRole
+                    {
+                        UserId=userId,
+                        RoleId=roleId
+
+                    });
+                   await  _db.SaveChangesAsync();
+                    return Json(new
+                    {
+                        error = false,
+                        message = $"'{user.Name} {user.Surname}' user has been added to'{role.Name}' role!"
+                    });
+                }
+            }
+            if (!selected)
+            {
+                var userRole = await _db.UserRoles.FirstOrDefaultAsync(ur => ur.UserId == userId && ur.RoleId == roleId);
+                if (userRole==null)
+                {
+                    return Json(new
+                    {
+                        error = true,
+                        message = $"'{user.Name} {user.Surname}' user has not access to '{role.Name}' role!"
+                    });
+                }
+                else
+                {
+                    _db.UserRoles.Remove(userRole);
+                    await _db.SaveChangesAsync();
+                    return Json(new
+                    {
+                        error = false,
+                        message = $"'{user.Name} {user.Surname}' user has been removed from'{role.Name}' role!"
+                    });
+                }
+            }
+
+                return Json(null);
+        }
+
+        [HttpPost]
+        [Route("/user-set-principal")]
+        [Authorize(Policy = "admin.users.principal")]
+        public async Task<IActionResult> SetPrincipal(int userId, string principalName, bool selected)
+        {
+
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                return Json(new
+                {
+                    error = true,
+                    message = "Invalid request"
+                });
+            }
+            if (userId == User.GetCurrentUserId())
+            {
+                return Json(new
+                {
+                    error = true,
+                    message = "User cannot self-authorize!"
+                });
+
+            }
+            var hasPrincipal = Program.principals.Contains(principalName);
+            if (!hasPrincipal)
+            {
+                return Json(new
+                {
+                    error = true,
+                    message = "Invalid request"
+                });
+            }
+
+            if (selected)
+            {
+                if(await _db.UserClaims.AnyAsync(uc => uc.UserId == userId && uc.ClaimType.Equals(principalName) && uc.ClaimValue.Equals("1")))
+                {
+                    return Json(new
+                    {
+                        error = true,
+                        message = $"'{user.Name} {user.Surname}' user has '{principalName}'!"
+                    });
+                }
+                else
+                {
+                    _db.UserClaims.Add(new RiodeUserClaim
+                    {
+                        UserId = userId,
+                       ClaimType= principalName,
+                       ClaimValue= "1"
+
+                    });
+                    await _db.SaveChangesAsync();
+                    return Json(new
+                    {
+                        error = false,
+                        message = $"'{user.Name} {user.Surname}' user has been added to'{principalName}' Claim!"
+                    });
+                }
+            }
+
+            else 
+            {
+               var userClaim= await _db.UserClaims.FirstOrDefaultAsync(uc => uc.UserId == userId && uc.ClaimType.Equals(principalName) && uc.ClaimValue.Equals("1"));
+                if (userClaim == null)
+                {
+                    return Json(new
+                    {
+                        error = true,
+                        message = $"'{user.Name} {user.Surname}' user has not access to '{principalName}' Claim!"
+                    });
+                }
+                else
+                {
+                    _db.UserClaims.Remove(userClaim);
+                    await _db.SaveChangesAsync();
+                    return Json(new
+                    {
+                        error = false,
+                        message = $"'{user.Name} {user.Surname}' user has been removed from'{principalName}' role!"
+                    });
+                }
+            }
+        }
+    }  
 }
