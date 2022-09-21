@@ -50,13 +50,6 @@ namespace Riode.WebUI.Controllers
             }
 
             return PartialView("_ProductContainer", query.ToList());
-
-            //return Json(new
-            //{
-            //    error = false,
-            //    data = query.ToList()
-
-            //});
         }
         [AllowAnonymous]
         public IActionResult Details(int id)

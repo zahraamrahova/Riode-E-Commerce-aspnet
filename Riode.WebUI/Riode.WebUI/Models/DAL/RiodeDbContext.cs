@@ -79,5 +79,7 @@ namespace Riode.WebUI.Models.DAL
         public DbSet<Subscribe> Subscribes { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
 
+        public DbSet<BlogPost> BlogPosts { get; set; }
+
     }
 }
