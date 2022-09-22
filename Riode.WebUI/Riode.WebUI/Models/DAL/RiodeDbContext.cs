@@ -80,6 +80,7 @@ namespace Riode.WebUI.Models.DAL
         public DbSet<AuditLog> AuditLogs { get; set; }
 
         public DbSet<BlogPost> BlogPosts { get; set; }
+        public DbSet<BlogPostComment> BlogPostComments { get; set; }
 
     }
 }

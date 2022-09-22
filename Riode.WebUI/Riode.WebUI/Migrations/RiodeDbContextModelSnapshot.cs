@@ -131,6 +131,49 @@ namespace Riode.WebUI.Migrations
                     b.ToTable("BlogPosts");
                 });
 
+            modelBuilder.Entity("Riode.WebUI.Models.Entities.BlogPostComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BlogPostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CreatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeletedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogPostId");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("DeletedByUserId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("BlogPostComments");
+                });
+
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -330,21 +373,21 @@ namespace Riode.WebUI.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "a455d617-0c35-454c-b61d-2939b8457041",
+                            ConcurrencyStamp = "85b8ab04-8081-4562-a6e7-6c8b7156842b",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "91383f7b-3ea4-4e8d-b98f-389e1d8f0b07",
+                            ConcurrencyStamp = "6516b10d-b492-46b5-80a1-d9f84ae49737",
                             Name = "Operator",
                             NormalizedName = "OPERATOR"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "2cff7e0a-7d6b-4c05-8433-887af7b231ce",
+                            ConcurrencyStamp = "ba1a636c-3573-4733-9e82-fbfc8d493780",
                             Name = "Reporter",
                             NormalizedName = "REPORTER"
                         });
@@ -938,6 +981,35 @@ namespace Riode.WebUI.Migrations
                     b.Navigation("DeletedByUser");
                 });
 
+            modelBuilder.Entity("Riode.WebUI.Models.Entities.BlogPostComment", b =>
+                {
+                    b.HasOne("Riode.WebUI.Models.Entities.BlogPost", "BlogPost")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Riode.WebUI.Models.Entities.Membership.RiodeUser", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId");
+
+                    b.HasOne("Riode.WebUI.Models.Entities.Membership.RiodeUser", "DeletedByUser")
+                        .WithMany()
+                        .HasForeignKey("DeletedByUserId");
+
+                    b.HasOne("Riode.WebUI.Models.Entities.BlogPostComment", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("BlogPost");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("DeletedByUser");
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Brand", b =>
                 {
                     b.HasOne("Riode.WebUI.Models.Entities.Membership.RiodeUser", "CreatedByUser")
@@ -1260,6 +1332,16 @@ namespace Riode.WebUI.Migrations
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("DeletedByUser");
+                });
+
+            modelBuilder.Entity("Riode.WebUI.Models.Entities.BlogPost", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("Riode.WebUI.Models.Entities.BlogPostComment", b =>
+                {
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Brand", b =>

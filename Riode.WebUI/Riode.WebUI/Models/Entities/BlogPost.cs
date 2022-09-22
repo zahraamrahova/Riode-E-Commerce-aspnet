@@ -9,6 +9,7 @@
         public DateTime? PublishedDate { get; set; }
 
         public virtual Category Category { get; set; }
+        public virtual ICollection<BlogPostComment> Comments { get; set; }
 
     }
 }
