@@ -212,7 +212,7 @@
                                 <h3 class="title title-simple text-left text-normal font-weight-bold">@Model.Post.Comments.Count() Comments</h3>
                                 <ul>
                         @foreach(var comment in Model.Post.Comments.Where(c=>c.ParentId==null))
-                        {             <li class="comment">
+                        {             <li class="comment" id="c-@comment.Id" data-comment-id="@comment.Id">
                                             <figure class="comment-media">
                                                 <a >
                                                     <img src="~/Uploads/images/blog/comments/1.jpg" alt="avatar">
@@ -232,7 +232,7 @@
                                             </div>
                                         </li>
                             @foreach(var subcomment in GetComments(comment)){
-                                 <li class="comment comment-sub">
+                                 <li class="comment comment-sub" id="c-@subcomment.Id" data-comment-id="@subcomment.Id">
                                             <figure class="comment-media">
                                                 <a >
                                                     <img src="~/Uploads/images/blog/comments/1.jpg" alt="avatar">
@@ -257,9 +257,12 @@
                             </div>
                             <!-- End Comments -->
                             <div class="reply">
-                                <form method="post">
+                                <form method="post" id="replyForm">
                                     <div id="replyToComment"></div>
-                                    <textarea id="reply-message" cols="30" rows="6" class="form-control mb-4"
+                                    <input type="hidden" name="postId" value="@Model.Post.Id"/>
+                                    <textarea id="reply-message" name="Comment"
+                                    cols="30" rows="6" 
+                                    class="form-control mb-4"
                                         placeholder="Comment *" required></textarea>
                                  
                                     <button type="submit" class="btn btn-primary btn-rounded">POST COMMENT<i
@@ -371,11 +374,24 @@
                 </div>
             </div>
 <style>
-    #replyToComment{
+    #replyToComment:not(:empty){
         border: 1px solid;
         max-width:100%;
         color:#999;
-        border-color:#e1e1e1;
+        padding:20px;
+        position:relative;
+    }
+    #replyToComment li.comment-sub{
+        margin: 0px;
+    }
+    #replyToComment  .remove-selected-comment{
+        color:red;
+        position:absolute;
+        font-size: 2rem;
+        right:8px;
+        top:0px;
+        padding:10px;
+
     }
 </style>
 
@@ -384,10 +400,48 @@
         $(document).ready(function(){
             $('.btn-comment-reply').click(function(e){
                 e.preventDefault();
-
-               $('#replyToComment').html('').append($(e.currenTarget).closest('.comment').clone());
+               $('#replyToComment').html('<a href="javascript:removeReplySelected()" class="remove-selected-comment">&times;</a>').append($(e.currentTarget).closest('.comment').clone());
 
             });
+            $('#replyForm').submit(function(e){
+                 e.preventDefault();
+
+                 let formData= new FormData(e.currentTarget);
+                 let toCommentId= $('#replyToComment li.comment').data('comment-id');
+                 console.log(toCommentId);
+                 if(toCommentId!=undefined){
+                     formData.set("commentId", toCommentId);
+                 }
+                 
+                 $.ajax({
+                    url:'@Url.Action("PostComment")',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function(response){
+                        console.log(response);
+                    },
+                    error: function(response){
+                        if(response.statusText=="parsererror"){
+                             if(toCommentId!=undefined){
+                           $(response.responseText).insertAfter($(`#c-${toCommentId}`));
+                           $('#replyToComment').html('');
+                           e.currentTarget.reset();
+                 }
+                 else { 
+                     $('div.comments ul').append($(response.responseText));
+                 }
+                        }
+                        console.warn(response);
+                    }
+                 });
+            });
         });
+
+        function removeReplySelected(el){
+            $('#replyToComment').html('');
+        }
     </script>
 }
